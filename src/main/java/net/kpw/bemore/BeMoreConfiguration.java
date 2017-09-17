@@ -17,4 +17,8 @@ public class BeMoreConfiguration extends Configuration {
     public DataSourceFactory getDataSourceFactory() {
         return database;
     }
+
+    public void setDatabase(DataSourceFactory database) {
+        this.database = database;
+    }
 }

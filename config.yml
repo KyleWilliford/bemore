@@ -2,22 +2,19 @@ logging:
   level: DEBUG
   loggers:
     net.kpw: DEBUG
-
+    org.eclipse.jetty: INFO
 database:
   # the name of your JDBC driver
   driverClass: com.mysql.jdbc.Driver
 
   # the username
-  # TODO replace me
-  user: 
+  user: bemore
 
   # the password
-  # TODO replace me
-  password: 
+  password: helpimtrappedinhere
 
   # the JDBC URL
-  # TODO replace me
-  url: jdbc:mysql://db.example.com/db-prod
+  url: jdbc:mysql://localhost:3306/bemore?zeroDateTimeBehavior=convertToNull&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
 
   # any properties specific to your JDBC driver:
   properties:
