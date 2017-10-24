@@ -8,6 +8,8 @@ Expose localhost to the internet on port 8080 `ngrok http 8080`
 
 More documentation on ngrok: https://ngrok.com/docs/2
 
+You will need to configure the slack bot to send requests to the exposed domain. Look at the ngrok output to get the public domain.
+
 How to start the idiot bot application server
 ---
 
