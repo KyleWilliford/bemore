@@ -4,8 +4,8 @@ For ease of development locally, use ngrok: https://ngrok.com/
 ---
 This will make it possible for Slack to forward requests from users (you) to your local server.
 
-Expose localhost to the internet on port 8080
-`ngrok http 8080`
+Expose localhost to the internet on port 8080 `ngrok http 8080`
+
 More documentation on ngrok: https://ngrok.com/docs/2
 
 How to start the idiot bot application server
