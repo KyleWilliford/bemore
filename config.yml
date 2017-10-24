@@ -3,35 +3,14 @@ logging:
   loggers:
     net.kpw: DEBUG
     org.eclipse.jetty: INFO
-database:
-  # the name of your JDBC driver
-  driverClass: com.mysql.jdbc.Driver
-
-  # the username
-  user: bemore
-
-  # the password
-  password: helpimtrappedinhere
-
-  # the JDBC URL
-  url: jdbc:mysql://localhost:3306/bemore?zeroDateTimeBehavior=convertToNull&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-
-  # any properties specific to your JDBC driver:
-  properties:
-    charSet: UTF-8
-    hibernate.dialect: org.hibernate.dialect.MySQLDialect
-
-  # the maximum amount of time to wait on an empty pool before throwing an exception
-  maxWaitForConnection: 1s
-
-  # the SQL query to run when validating a connection's liveness
-  validationQuery: "/* BeMoreApplication Health Check */ SELECT 1"
-
-  # the minimum number of connections to keep open
-  minSize: 8
-
-  # the maximum number of connections to keep open
-  maxSize: 32
-
-  # whether or not idle connections should be validated
-  checkConnectionWhileIdle: false
+    org.apache.http: INFO
+httpClient:
+  timeout: 5000ms
+  connectionTimeout: 5000ms
+  timeToLive: 1h
+  cookiesEnabled: false
+  maxConnections: 1024
+  maxConnectionsPerRoute: 1024
+  keepAlive: 0ms
+  retries: 0
+  userAgent: idiotbot
