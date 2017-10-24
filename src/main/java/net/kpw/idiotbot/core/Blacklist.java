@@ -7,6 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * @author kwilliford
+ * @created Oct 24, 2017
+ *
+ */
 public class Blacklist {
     private static final Log LOG = LogFactory.getLog(Blacklist.class);
     

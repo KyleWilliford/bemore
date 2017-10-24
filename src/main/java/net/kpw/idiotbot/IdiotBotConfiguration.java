@@ -8,6 +8,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import io.dropwizard.client.HttpClientConfiguration;
 
+/**
+ * @author kwilliford
+ * @created Oct 24, 2017
+ *
+ */
 public class IdiotBotConfiguration extends Configuration {
     @Valid
     @NotNull

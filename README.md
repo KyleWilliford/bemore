@@ -10,6 +10,9 @@ More documentation on ngrok: https://ngrok.com/docs/2
 
 You will need to configure the slack bot to send requests to the exposed domain. Look at the ngrok output to get the public domain.
 
+---
+For a "real" version of this slack app, a live list of bad domains/urls/etc. should be retrieved at server start, and periodically after that. This application currently loads files that were retrieved on October 24th, or thereabouts.
+
 How to start the idiot bot application server
 ---
 
@@ -19,7 +22,8 @@ How to start the idiot bot application server
 
 Exposed REST apis
 ---
-`POST /api/is_blacklisted` Checks a given email against a list of known bad boy disposable spam domains, curated here: https://github.com/martenson/disposable-email-domains
+`POST /api/is_blacklisted` Checks a given email against a list of known bad boy disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains
+`POST /api/is_phishy` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/
 
 Health Check
 ---
