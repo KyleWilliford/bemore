@@ -10,14 +10,17 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.HttpClient;
 
 import io.dropwizard.Application;
+import io.dropwizard.client.HttpClientBuilder;
 import io.dropwizard.setup.Environment;
 import net.kpw.slackboat.core.Blacklist;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
 import net.kpw.slackboat.core.ZeuSBlacklist;
 import net.kpw.slackboat.resources.SlackBoatResource;
+import net.kpw.slackboat.resources.SlackOAuthResource;
 
 /**
  * @author kwilliford
@@ -39,7 +42,7 @@ public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
     @Override
     public void run(final SlackBoatConfiguration configuration, final Environment environment) {
         // HTTP client
-        //final HttpClient httpClient = new HttpClientBuilder(environment).using(configuration.getHttpClientConfiguration()).build(getName());
+        final HttpClient httpClient = new HttpClientBuilder(environment).using(configuration.getHttpClientConfiguration()).build(getName());
 
         /*
          * Using HTTP requests to load resources is something to do for a production version of this application.
@@ -49,7 +52,7 @@ public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
         try {
             HttpResponse response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
-            blacklist = new Blacklist(parseBlacklist(entity.getContent()));
+            blacklist = new Blacklist(parseTextFile(entity.getContent()));
             EntityUtils.consume(entity);
         } catch (Exception e) {
             LOG.error(e);
@@ -64,8 +67,11 @@ public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
                 parseTextFile(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
 
         // Resources
-        final SlackBoatResource slackBoatResource = new SlackBoatResource(blacklist, phishTank, openPhish, zeusBlacklist);
+        final SlackBoatResource slackBoatResource = new SlackBoatResource(blacklist, phishTank, openPhish, zeusBlacklist, 
+                configuration.getSlackClientAppConfiguration().getVerificationToken());
+        final SlackOAuthResource slackOAuthResource = new SlackOAuthResource(configuration.getSlackClientAppConfiguration(), httpClient);
         environment.jersey().register(slackBoatResource);
+        environment.jersey().register(slackOAuthResource);
     }
 
     private Set<String> parseTextFile(InputStream inputStream) {

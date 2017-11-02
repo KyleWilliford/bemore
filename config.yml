@@ -4,6 +4,8 @@ logging:
     net.kpw: DEBUG
     org.eclipse.jetty: INFO
     org.apache.http: INFO
+    com.codahale.metrics.httpclient: INFO
+    
 httpClient:
   timeout: 5000ms
   connectionTimeout: 5000ms
@@ -13,4 +15,9 @@ httpClient:
   maxConnectionsPerRoute: 1024
   keepAlive: 0ms
   retries: 0
-  userAgent: idiotbot
+  userAgent: slackboat
+  
+slack:
+  clientID: '261022332754.262110268791'
+  clientSecret: 'b5922ef741e4f417a5890c0cc938fa1c'
+  verificationToken: 'oxQEQTZ1Ql11KhfVNhQbbnlr'
