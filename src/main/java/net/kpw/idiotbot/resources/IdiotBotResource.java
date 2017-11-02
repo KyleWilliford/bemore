@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.kpw.idiotbot.core.Blacklist;
+import net.kpw.idiotbot.core.OpenPhish;
 import net.kpw.idiotbot.core.PhishTank;
 
 /**
@@ -23,12 +24,14 @@ import net.kpw.idiotbot.core.PhishTank;
 public class IdiotBotResource {
     private static final Log LOG = LogFactory.getLog(IdiotBotResource.class);
     
-    private Blacklist blacklist;
-    private PhishTank phishTank;
+    private final Blacklist blacklist;
+    private final PhishTank phishTank;
+    private final OpenPhish openPhish;
     
-    public IdiotBotResource(final Blacklist blacklist, final PhishTank phishTank) {
+    public IdiotBotResource(final Blacklist blacklist, final PhishTank phishTank, final OpenPhish openPhish) {
         this.blacklist = blacklist;
         this.phishTank = phishTank;
+        this.openPhish = openPhish;
     }
     
     @POST
@@ -37,11 +40,11 @@ public class IdiotBotResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response isDomainBlacklisted(@FormParam("text") String text) {
         LOG.debug(text);
-        String responseText = "Hmm, I'm not sure.";
+        String responseText;
         if (blacklist.isDomainBlacklisted(text)) {
-            responseText = "Yeah... don't trust " + text + "; It's bad, m'kay.";
+            responseText = "Found it! Don't trust that domain! It's bad, m'kay.";
         } else {
-            responseText = "Nope. " + text + " was not found in the blacklist of domains.";
+            responseText = "I couldn't find that domain in the blacklist of domains.";
         }
         return Response.ok().entity(responseText).build();
     }
@@ -52,11 +55,11 @@ public class IdiotBotResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response isURLPhishy(@FormParam("text") String text) {
         LOG.debug(text);
-        String responseText = "Hmm, I'm not sure.";
-        if (phishTank.isURLAPhishery(text)) {
-            responseText = "Yeah... don't trust that url; It's bad, m'kay.";
+        String responseText;
+        if (phishTank.isURLAPhishery(text) || openPhish.isURLAPhishery(text)) {
+            responseText = "Found it! Don't trust that url! It's bad, m'kay.";
         } else {
-            responseText = "Nope. That URL was not found in the list of PhishTank urls.";
+            responseText = "I couldn't find that url in my database of known phishing urls.";
         }
         return Response.ok().entity(responseText).build();
     }

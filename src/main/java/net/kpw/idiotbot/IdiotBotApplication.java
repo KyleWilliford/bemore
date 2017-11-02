@@ -10,12 +10,11 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.client.HttpClient;
 
 import io.dropwizard.Application;
-import io.dropwizard.client.HttpClientBuilder;
 import io.dropwizard.setup.Environment;
 import net.kpw.idiotbot.core.Blacklist;
+import net.kpw.idiotbot.core.OpenPhish;
 import net.kpw.idiotbot.core.PhishTank;
 import net.kpw.idiotbot.resources.IdiotBotResource;
 
@@ -39,7 +38,7 @@ public class IdiotBotApplication extends Application<IdiotBotConfiguration> {
     @Override
     public void run(final IdiotBotConfiguration configuration, final Environment environment) {
         // HTTP client
-        final HttpClient httpClient = new HttpClientBuilder(environment).using(configuration.getHttpClientConfiguration()).build(getName());
+        //final HttpClient httpClient = new HttpClientBuilder(environment).using(configuration.getHttpClientConfiguration()).build(getName());
 
         /*
          * Using HTTP requests to load resources is something to do for a production version of this application.
@@ -57,15 +56,16 @@ public class IdiotBotApplication extends Application<IdiotBotConfiguration> {
         }
         */
 
-        Blacklist blacklist = new Blacklist(parseBlacklist(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
-        PhishTank phishTank = new PhishTank(parsePhishTankList(getClass().getResourceAsStream("/verified_online.csv")));
+        Blacklist blacklist = new Blacklist(parseTextFile(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
+        PhishTank phishTank = new PhishTank(parseCSVFile(getClass().getResourceAsStream("/verified_online.csv")));
+        OpenPhish openPhish = new OpenPhish(parseTextFile(getClass().getResourceAsStream("/openphish.txt")));
 
         // Resources
-        final IdiotBotResource idiotBotResource = new IdiotBotResource(blacklist, phishTank);
+        final IdiotBotResource idiotBotResource = new IdiotBotResource(blacklist, phishTank, openPhish);
         environment.jersey().register(idiotBotResource);
     }
 
-    private Set<String> parseBlacklist(InputStream inputStream) {
+    private Set<String> parseTextFile(InputStream inputStream) {
         try {
             Set<String> domains = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines()
                     .collect(Collectors.toCollection(() -> new TreeSet<>()));
@@ -77,7 +77,7 @@ public class IdiotBotApplication extends Application<IdiotBotConfiguration> {
         return new TreeSet<>();
     }
 
-    private Set<String> parsePhishTankList(InputStream inputStream) {
+    private Set<String> parseCSVFile(InputStream inputStream) {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             Set<String> urls = br.lines().map(line -> {
