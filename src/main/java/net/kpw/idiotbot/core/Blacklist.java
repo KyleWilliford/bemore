@@ -8,23 +8,41 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * Blacklist domain database.
+ * 
  * @author kwilliford
  * @created Oct 24, 2017
  *
  */
 public class Blacklist {
     private static final Log LOG = LogFactory.getLog(Blacklist.class);
-    
-    private Set<String> domains = new TreeSet<>();
-    
+
+    protected Set<String> domains = new TreeSet<>();
+
     public Blacklist(final Set<String> domains) {
         this.domains = domains;
     }
 
-    public boolean isDomainBlacklisted(final String email) {
-        LOG.debug(email);
-        if (StringUtils.isBlank(email)) return false;
-        String[] split = email.split("@");
+    /**
+     * @return the domains
+     */
+    public Set<String> getDomains() {
+        return domains;
+    }
+
+    /**
+     * Return true if the given string includes a domain in the blacklist of domains.
+     * The input can be an email or domain name.
+     * 
+     * @param input
+     *            An email or domain name.
+     * @return True if the string is in the blacklist.
+     */
+    public boolean isDomainBlacklisted(final String input) {
+        LOG.debug(input);
+        if (StringUtils.isBlank(input))
+            return false;
+        String[] split = input.split("@");
         if (split.length == 0) {
             return false;
         } else if (split.length == 1) {
@@ -38,14 +56,8 @@ public class Blacklist {
     }
 
     /**
-     * @return the domains
-     */
-    public Set<String> getDomains() {
-        return domains;
-    }
-
-    /**
-     * @param domains the domains to set
+     * @param domains
+     *            the domains to set
      */
     public void setDomains(Set<String> domains) {
         this.domains = domains;

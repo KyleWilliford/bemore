@@ -16,6 +16,7 @@ import io.dropwizard.setup.Environment;
 import net.kpw.idiotbot.core.Blacklist;
 import net.kpw.idiotbot.core.OpenPhish;
 import net.kpw.idiotbot.core.PhishTank;
+import net.kpw.idiotbot.core.ZeuSBlacklist;
 import net.kpw.idiotbot.resources.IdiotBotResource;
 
 /**
@@ -56,12 +57,14 @@ public class IdiotBotApplication extends Application<IdiotBotConfiguration> {
         }
         */
 
-        Blacklist blacklist = new Blacklist(parseTextFile(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
-        PhishTank phishTank = new PhishTank(parseCSVFile(getClass().getResourceAsStream("/verified_online.csv")));
-        OpenPhish openPhish = new OpenPhish(parseTextFile(getClass().getResourceAsStream("/openphish.txt")));
+        final Blacklist blacklist = new Blacklist(parseTextFile(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
+        final PhishTank phishTank = new PhishTank(parseCSVFile(getClass().getResourceAsStream("/verified_online.csv")));
+        final OpenPhish openPhish = new OpenPhish(parseTextFile(getClass().getResourceAsStream("/openphish.txt")));
+        final ZeuSBlacklist zeusBlacklist = new ZeuSBlacklist(parseTextFile(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")), 
+                parseTextFile(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
 
         // Resources
-        final IdiotBotResource idiotBotResource = new IdiotBotResource(blacklist, phishTank, openPhish);
+        final IdiotBotResource idiotBotResource = new IdiotBotResource(blacklist, phishTank, openPhish, zeusBlacklist);
         environment.jersey().register(idiotBotResource);
     }
 
