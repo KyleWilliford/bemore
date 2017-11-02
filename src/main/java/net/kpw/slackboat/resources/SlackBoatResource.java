@@ -1,4 +1,4 @@
-package net.kpw.idiotbot.resources;
+package net.kpw.slackboat.resources;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -11,10 +11,10 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.kpw.idiotbot.core.Blacklist;
-import net.kpw.idiotbot.core.OpenPhish;
-import net.kpw.idiotbot.core.PhishTank;
-import net.kpw.idiotbot.core.ZeuSBlacklist;
+import net.kpw.slackboat.core.Blacklist;
+import net.kpw.slackboat.core.OpenPhish;
+import net.kpw.slackboat.core.PhishTank;
+import net.kpw.slackboat.core.ZeuSBlacklist;
 
 /**
  * @author kwilliford
@@ -22,15 +22,15 @@ import net.kpw.idiotbot.core.ZeuSBlacklist;
  *
  */
 @Path("/api")
-public class IdiotBotResource {
-    private static final Log LOG = LogFactory.getLog(IdiotBotResource.class);
+public class SlackBoatResource {
+    private static final Log LOG = LogFactory.getLog(SlackBoatResource.class);
 
     private final Blacklist blacklist;
     private final PhishTank phishTank;
     private final OpenPhish openPhish;
     private final ZeuSBlacklist zeusBlacklist;
 
-    public IdiotBotResource(final Blacklist blacklist, final PhishTank phishTank, final OpenPhish openPhish,
+    public SlackBoatResource(final Blacklist blacklist, final PhishTank phishTank, final OpenPhish openPhish,
             final ZeuSBlacklist zeusBlacklist) {
         this.blacklist = blacklist;
         this.phishTank = phishTank;

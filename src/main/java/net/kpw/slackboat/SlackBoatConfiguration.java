@@ -1,4 +1,4 @@
-package net.kpw.idiotbot;
+package net.kpw.slackboat;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ import io.dropwizard.client.HttpClientConfiguration;
  * @created Oct 24, 2017
  *
  */
-public class IdiotBotConfiguration extends Configuration {
+public class SlackBoatConfiguration extends Configuration {
     @Valid
     @NotNull
     private HttpClientConfiguration httpClient = new HttpClientConfiguration();

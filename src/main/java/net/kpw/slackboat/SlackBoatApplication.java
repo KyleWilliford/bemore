@@ -1,4 +1,4 @@
-package net.kpw.idiotbot;
+package net.kpw.slackboat;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -13,22 +13,22 @@ import org.apache.commons.logging.LogFactory;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
-import net.kpw.idiotbot.core.Blacklist;
-import net.kpw.idiotbot.core.OpenPhish;
-import net.kpw.idiotbot.core.PhishTank;
-import net.kpw.idiotbot.core.ZeuSBlacklist;
-import net.kpw.idiotbot.resources.IdiotBotResource;
+import net.kpw.slackboat.core.Blacklist;
+import net.kpw.slackboat.core.OpenPhish;
+import net.kpw.slackboat.core.PhishTank;
+import net.kpw.slackboat.core.ZeuSBlacklist;
+import net.kpw.slackboat.resources.SlackBoatResource;
 
 /**
  * @author kwilliford
  * @created Oct 24, 2017
  *
  */
-public class IdiotBotApplication extends Application<IdiotBotConfiguration> {
-    private static final Log LOG = LogFactory.getLog(IdiotBotApplication.class);
+public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
+    private static final Log LOG = LogFactory.getLog(SlackBoatApplication.class);
 
     public static void main(final String[] args) throws Exception {
-        new IdiotBotApplication().run(args);
+        new SlackBoatApplication().run(args);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class IdiotBotApplication extends Application<IdiotBotConfiguration> {
     }
 
     @Override
-    public void run(final IdiotBotConfiguration configuration, final Environment environment) {
+    public void run(final SlackBoatConfiguration configuration, final Environment environment) {
         // HTTP client
         //final HttpClient httpClient = new HttpClientBuilder(environment).using(configuration.getHttpClientConfiguration()).build(getName());
 
@@ -64,8 +64,8 @@ public class IdiotBotApplication extends Application<IdiotBotConfiguration> {
                 parseTextFile(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
 
         // Resources
-        final IdiotBotResource idiotBotResource = new IdiotBotResource(blacklist, phishTank, openPhish, zeusBlacklist);
-        environment.jersey().register(idiotBotResource);
+        final SlackBoatResource slackBoatResource = new SlackBoatResource(blacklist, phishTank, openPhish, zeusBlacklist);
+        environment.jersey().register(slackBoatResource);
     }
 
     private Set<String> parseTextFile(InputStream inputStream) {

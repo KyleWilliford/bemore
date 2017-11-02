@@ -1,4 +1,4 @@
-package net.kpw.idiotbot.core;
+package net.kpw.slackboat.core;
 
 import java.util.Set;
 
