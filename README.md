@@ -1,7 +1,7 @@
 # slackboat chat bot
 
 # What is this?
-This is a server for a Slack chat bot. This server processes commands at specific RESTful paths. The paths and methods are listed below.
+This is a server for a Slack chat bot. This server processes commands at specific RESTful paths. There is a Slackboat bot distribution that will call these services. The api paths and methods are listed at the end of this file.
 
 For ease of development locally, use ngrok: https://ngrok.com/
 ---
