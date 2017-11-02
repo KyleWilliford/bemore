@@ -1,10 +1,20 @@
-# idiot bot
+# slackboat chat bot
+
+# What is this?
+This is a server for a Slack chat bot. This server processes commands at specific RESTful paths. The paths and methods are listed below.
 
 For ease of development locally, use ngrok: https://ngrok.com/
 ---
-This will make it possible for Slack to forward requests from users (you) to your local server.
+This will make it possible for your Slack client to forward requests from users (you) to your local server over the internet, without having to deploy this server to a remote environment (an AWS EC2 node, for example) during development.
 
-Expose localhost to the internet on port 8080 `ngrok http 8080`
+Install ngrok:
+---
+Go here https://ngrok.com/ and download the package for your operating system.
+unzip the archive (instructions are on the same page)
+For this project, you will expose localhost to the internet on port 8080 with a randomized domain name.
+run  `$ ./ngrok http 8080`
+You should see something similar to this:
+![Alt text](/images/ngrok-http-8080.png?raw=true "ngrok http 8080")
 
 More documentation on ngrok: https://ngrok.com/docs/2
 
