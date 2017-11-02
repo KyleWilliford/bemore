@@ -28,17 +28,25 @@ You will need to configure the slack bot to send requests to the exposed domain.
 ---
 For a "real" version of this slack app, a live list of bad domains/urls/etc. should be retrieved at server start, and periodically after that. This application currently loads files that were retrieved on October 24th, or thereabouts.
 
-How to start the idiot bot application server
+How to start the Slackboat server
 ---
 
 1. Run `mvn clean install` to build your application
 1. Start application with `java -jar target/idiotbot-<version>.jar server config.yml`
 1. To check that your application is running enter url `http://localhost:8080`
+1. A helpful alias to do this: `alias slackboat='cd <path to repo>/slackboat; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'`
 
 Exposed REST apis
 ---
 `POST /api/is_blacklisted` Checks a given email against a list of known bad boy disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains
-`POST /api/is_phishy` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/
+`POST /api/is_phishy` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/ and here https://openphish.com/phishing_feeds.html
+`POST /api/is_zeus_domain` Checks a given domain against a list of known zeus trojan domains, maintained here: 
+https://zeustracker.abuse.ch/blocklist.php?download=baddomains
+`POST /api/is_zeus_ipv4` Checks a given ipv4 address against a list of known zeus trojan ip addresses, maintained here:
+https://zeustracker.abuse.ch/blocklist.php?download=badips
+`POST /api/find_any_match` Checks a given text input against all of the above databases.
+
+
 
 Health Check
 ---
