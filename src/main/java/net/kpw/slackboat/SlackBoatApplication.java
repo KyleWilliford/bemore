@@ -33,7 +33,7 @@ public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
 
     @Override
     public String getName() {
-        return "idiot bot";
+        return "slackboat";
     }
 
     @Override
