@@ -25,8 +25,11 @@ More documentation on ngrok: https://ngrok.com/docs/2
 
 You will need to configure the slack bot to send requests to the exposed domain. Look at the ngrok output to get the public domain.
 
+Future improvements
 ---
-For a "real" version of this slack app, a live list of bad domains/urls/etc. should be retrieved at server start, and periodically after that. This application currently loads files that were retrieved on October 24th, or thereabouts.
+Databases should be retrieved at server start, and periodically after that.
+
+This server currently loads files that were retrieved between October 24th 2017 and November 2nd 2017, or thereabouts.
 
 How to start the Slackboat server
 ---
