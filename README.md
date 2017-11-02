@@ -10,10 +10,15 @@ This will make it possible for your Slack client to forward requests from users 
 Install ngrok:
 ---
 Go here https://ngrok.com/ and download the package for your operating system.
-unzip the archive (instructions are on the same page)
+
+unzip the archive (command instructions are on the same page as the downloads)
+
 For this project, you will expose localhost to the internet on port 8080 with a randomized domain name.
+
 run  `$ ./ngrok http 8080`
+
 You should see something similar to this:
+
 ![Alt text](/images/ngrok-http-8080.png?raw=true "ngrok http 8080")
 
 More documentation on ngrok: https://ngrok.com/docs/2
