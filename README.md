@@ -12,8 +12,11 @@ This will make it possible for your Slack client to forward requests from users 
 # Requirements
 ---
 Java JDK 8 (development) / JRE 8 (runtime)
+
 Maven 3.x.x
+
 ngrok 2.8.x (development, localhost)
+
 Not Terrible Internet Connection (duh)
 
 # Install ngrok:
