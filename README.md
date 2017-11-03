@@ -1,7 +1,7 @@
 # slackboat chat bot
 
 # What is this?
-This is a server for a Slack application. This server exposes a RESTful API for the Slackboat Slack app to use to process commands. This server can also be used to authorize installations of the Slackboat Slack app using Slack's OAuth authorization APIs.
+This is a server for the Slackboat Slack application. This server exposes a RESTful API for the Slackboat Slack app to use to process commands. This server can also be used to authorize installations of the Slackboat Slack app using Slack's OAuth authorization APIs.
 
 This server's api paths and methods types are listed at the end of this file.
 
@@ -29,7 +29,7 @@ You will need to configure the slack bot to send requests to the tunneled domain
 
 Future improvements
 ---
-Malware/phishing/etc. Databases should be retrieved at server start, and periodically after that.
+Malware/phishing/etc. databases should be retrieved at server start, and periodically after that.
 
 This server currently loads files that were retrieved between October 24th 2017 and November 2nd 2017, or thereabouts.
 
