@@ -51,9 +51,3 @@ https://zeustracker.abuse.ch/blocklist.php?download=baddomains
 https://zeustracker.abuse.ch/blocklist.php?download=badips
 `POST /api/find_any_match` Checks a given text input against all of the above databases.
 
-
-
-Health Check
----
-
-To see your applications health enter url `http://localhost:8081/healthcheck`
