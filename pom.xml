@@ -9,7 +9,7 @@
 
 	<groupId>net.kpw</groupId>
 	<artifactId>slackboat</artifactId>
-	<version>0.2.0</version>
+	<version>0.3.0</version>
 	<packaging>jar</packaging>
 
 	<name>Slackboat bot</name>
@@ -38,15 +38,20 @@
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-core</artifactId>
 		</dependency>
-      <dependency>
-        <groupId>io.dropwizard</groupId>
-        <artifactId>dropwizard-client</artifactId>
-      </dependency>
-      <dependency>
-      	<groupId>commons-io</groupId>
-      	<artifactId>commons-io</artifactId>
-      	<version>2.5</version>
-      </dependency>
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency><!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -120,15 +125,15 @@
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.3</version>
-        <configuration>
-          <tags>
-            <tag>
-              <name>created</name>
-              <placement>a</placement>
-              <head>Date created</head>
-            </tag>
-          </tags>
-        </configuration>
+				<configuration>
+					<tags>
+						<tag>
+							<name>created</name>
+							<placement>a</placement>
+							<head>Date created</head>
+						</tag>
+					</tags>
+				</configuration>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>

@@ -1,13 +1,5 @@
 package net.kpw.slackboat;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.HttpClient;
@@ -15,12 +7,13 @@ import org.apache.http.client.HttpClient;
 import io.dropwizard.Application;
 import io.dropwizard.client.HttpClientBuilder;
 import io.dropwizard.setup.Environment;
-import net.kpw.slackboat.core.Blacklist;
+import net.kpw.slackboat.core.DomainBlacklist;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
 import net.kpw.slackboat.core.ZeuSBlacklist;
 import net.kpw.slackboat.resources.SlackBoatResource;
 import net.kpw.slackboat.resources.SlackOAuthResource;
+import net.kpw.slackboat.util.FileParser;
 
 /**
  * @author kwilliford
@@ -28,6 +21,7 @@ import net.kpw.slackboat.resources.SlackOAuthResource;
  *
  */
 public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
+    @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(SlackBoatApplication.class);
 
     public static void main(final String[] args) throws Exception {
@@ -59,48 +53,20 @@ public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
             System.exit(0);
         }
         */
+        
+        final FileParser fileParser = FileParser.getInstance();
 
-        final Blacklist blacklist = new Blacklist(parseTextFile(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
-        final PhishTank phishTank = new PhishTank(parseCSVFile(getClass().getResourceAsStream("/phishtank.csv")));
-        final OpenPhish openPhish = new OpenPhish(parseTextFile(getClass().getResourceAsStream("/openphish.txt")));
-        final ZeuSBlacklist zeusBlacklist = new ZeuSBlacklist(parseTextFile(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")), 
-                parseTextFile(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
+        final DomainBlacklist domainBlacklist = new DomainBlacklist(fileParser.parseLines(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
+        final PhishTank phishTank = new PhishTank(fileParser.parseURLsSecondColumn(getClass().getResourceAsStream("/phishtank.csv")));
+        final OpenPhish openPhish = new OpenPhish(fileParser.parseLines(getClass().getResourceAsStream("/openphish.txt")));
+        final ZeuSBlacklist zeusBlacklist = new ZeuSBlacklist(fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")), 
+                fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
 
         // Resources
-        final SlackBoatResource slackBoatResource = new SlackBoatResource(blacklist, phishTank, openPhish, zeusBlacklist, 
+        final SlackBoatResource slackBoatResource = new SlackBoatResource(domainBlacklist, phishTank, openPhish, zeusBlacklist, 
                 configuration.getSlackClientAppConfiguration().getVerificationToken());
         final SlackOAuthResource slackOAuthResource = new SlackOAuthResource(configuration.getSlackClientAppConfiguration(), httpClient);
         environment.jersey().register(slackBoatResource);
         environment.jersey().register(slackOAuthResource);
-    }
-
-    private Set<String> parseTextFile(InputStream inputStream) {
-        try {
-            Set<String> domains = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines()
-                    .collect(Collectors.toCollection(() -> new TreeSet<>()));
-            LOG.debug("Loaded " + domains.size() + " bad email domains");
-            return domains;
-        } catch (Exception e) {
-            LOG.error(e);
-        }
-        return new TreeSet<>();
-    }
-
-    private Set<String> parseCSVFile(InputStream inputStream) {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-            Set<String> urls = br.lines().map(line -> {
-                String[] split = line.split(",");
-                if (split.length >= 2) {
-                    return split[1]; // url column
-                }
-                return "";
-            }).collect(Collectors.toCollection(() -> new TreeSet<>()));
-            LOG.debug("Loaded " + urls.size() + " phishy urls");
-            return urls;
-        } catch (Exception e) {
-            LOG.error(e);
-        }
-        return new TreeSet<>();
     }
 }

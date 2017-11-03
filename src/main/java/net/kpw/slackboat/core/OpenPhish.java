@@ -2,6 +2,9 @@ package net.kpw.slackboat.core;
 
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * OpenPhish url database.
  * 
@@ -10,8 +13,10 @@ import java.util.Set;
  *
  */
 public class OpenPhish extends Phishery {
+    private static final Log LOG = LogFactory.getLog(OpenPhish.class);
 
-    public OpenPhish(Set<String> urls) {
+    public OpenPhish(final Set<String> urls) {
         super(urls);
+        LOG.info("Loaded " + this.urls.size()+ " OpenPhish URLs.");
     }
 }

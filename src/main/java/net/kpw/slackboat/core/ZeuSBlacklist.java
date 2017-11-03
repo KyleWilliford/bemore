@@ -14,14 +14,16 @@ import org.apache.commons.logging.LogFactory;
  * @created Nov 2, 2017
  *
  */
-public class ZeuSBlacklist extends Blacklist {
+public class ZeuSBlacklist extends DomainBlacklist {
     private static final Log LOG = LogFactory.getLog(ZeuSBlacklist.class);
 
     private Set<String> ipv4Addresses = new TreeSet<>();
 
     public ZeuSBlacklist(final Set<String> domains, final Set<String> ipv4Addresses) {
         super(domains);
+        LOG.info("Loaded " + this.domains.size()+ " blacklisted ZeuS domains.");
         this.ipv4Addresses = ipv4Addresses;
+        LOG.info("Loaded " + this.ipv4Addresses.size()+ " blacklisted ZeuS trojan ipv4 addresses.");
     }
 
     /**

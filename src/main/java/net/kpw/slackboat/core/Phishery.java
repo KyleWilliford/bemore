@@ -7,12 +7,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * General purpose phishing URL class.
+ * 
  * @author kwilliford
  * @created Nov 2, 2017
  *
  */
-public class Phishery {
-    private static final Log LOG = LogFactory.getLog(Blacklist.class);
+public abstract class Phishery {
+    private static final Log LOG = LogFactory.getLog(DomainBlacklist.class);
 
     protected Set<String> urls = new TreeSet<>();
 

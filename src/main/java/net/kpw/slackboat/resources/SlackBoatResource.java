@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.kpw.slackboat.core.Blacklist;
+import net.kpw.slackboat.core.DomainBlacklist;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
 import net.kpw.slackboat.core.ZeuSBlacklist;
@@ -26,16 +26,16 @@ public class SlackBoatResource {
     private static final Log LOG = LogFactory.getLog(SlackBoatResource.class);
 
     private static final String VERIFICATION_TOKEN_INVALID = "Verification token invalid.";
-    private final Blacklist blacklist;
+    private final DomainBlacklist domainBlacklist;
     private final PhishTank phishTank;
     private final OpenPhish openPhish;
     private final ZeuSBlacklist zeusBlacklist;
 
     private final String verificationToken;
 
-    public SlackBoatResource(final Blacklist blacklist, final PhishTank phishTank, final OpenPhish openPhish,
+    public SlackBoatResource(final DomainBlacklist domainBlacklist, final PhishTank phishTank, final OpenPhish openPhish,
             final ZeuSBlacklist zeusBlacklist, final String verificationToken) {
-        this.blacklist = blacklist;
+        this.domainBlacklist = domainBlacklist;
         this.phishTank = phishTank;
         this.openPhish = openPhish;
         this.zeusBlacklist = zeusBlacklist;
@@ -51,7 +51,7 @@ public class SlackBoatResource {
         if (!verifyToken(token)) {
             return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
         }
-        final boolean matchDisposableEmailDomain = blacklist.isDomainBlacklisted(text);
+        final boolean matchDisposableEmailDomain = domainBlacklist.isDomainBlacklisted(text);
         final boolean matchPhishTank = phishTank.isURLAPhishery(text);
         final boolean matchOpenPhish = openPhish.isURLAPhishery(text);
         final boolean matchZeuSDomains = zeusBlacklist.isDomainBlacklisted(text);
@@ -85,7 +85,7 @@ public class SlackBoatResource {
             return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
         }
         String responseText;
-        if (blacklist.isDomainBlacklisted(text)) {
+        if (domainBlacklist.isDomainBlacklisted(text)) {
             responseText = "Found it! Don't trust that domain! It's bad, m'kay.";
         } else {
             responseText = "I couldn't find that domain in the blacklist of domains.";

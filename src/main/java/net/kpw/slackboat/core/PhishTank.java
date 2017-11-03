@@ -2,6 +2,9 @@ package net.kpw.slackboat.core;
 
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * PhishTank url database.
  * 
@@ -10,8 +13,10 @@ import java.util.Set;
  *
  */
 public class PhishTank extends Phishery {
+    private static final Log LOG = LogFactory.getLog(PhishTank.class);
 
-    public PhishTank(Set<String> urls) {
+    public PhishTank(final Set<String> urls) {
         super(urls);
+        LOG.info("Loaded " + this.urls.size()+ " PhishTank URLs.");
     }
 }
