@@ -9,7 +9,7 @@ For ease of development locally, use ngrok: https://ngrok.com/
 ---
 This will make it possible for your Slack client to forward requests from users (you) to your local server over the internet, without having to deploy this server to a remote environment (an AWS EC2 node, for example) during development.
 
-Install ngrok:
+# Install ngrok:
 ---
 Go here https://ngrok.com/ and download the package for your operating system.
 
@@ -27,13 +27,13 @@ More documentation on ngrok: https://ngrok.com/docs/2
 
 You will need to configure the slack bot to send requests to the tunneled domain. Look at the ngrok output to get the public domain.
 
-Future improvements
+# Future improvements
 ---
 Malware/phishing/etc. databases should be retrieved at server start, and periodically after that.
 
 This server currently loads files that were retrieved between October 24th 2017 and November 2nd 2017, or thereabouts.
 
-How to start the Slackboat server
+# How do I even...?
 ---
 
 1. Run `mvn clean install` to build your application
@@ -41,7 +41,7 @@ How to start the Slackboat server
 1. To check that your application is running enter url `http://localhost:8080`
 1. A helpful alias to do this: `alias slackboat='cd <path to repo>/slackboat; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'`
 
-Exposed REST apis
+# Exposed REST apis
 ---
 `POST /api/is_blacklisted` Checks a given email against a list of known bad boy disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains
 
