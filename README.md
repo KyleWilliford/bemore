@@ -9,6 +9,13 @@ For ease of development locally, use ngrok: https://ngrok.com/
 ---
 This will make it possible for your Slack client to forward requests from users (you) to your local server over the internet, without having to deploy this server to a remote environment (an AWS EC2 node, for example) during development.
 
+# Requirements
+---
+Java JDK 8 (development) / JRE 8 (runtime)
+Maven 3.x.x
+ngrok 2.8.x (development, localhost)
+Not Terrible Internet Connection (duh)
+
 # Install ngrok:
 ---
 Go here https://ngrok.com/ and download the package for your operating system.
@@ -27,19 +34,19 @@ More documentation on ngrok: https://ngrok.com/docs/2
 
 You will need to configure the slack bot to send requests to the tunneled domain. Look at the ngrok output to get the public domain.
 
+# How do I even...?
+---
+
+1. Run `mvn clean install` to build the application
+1. Start the application with `java -jar target/slackboat-<version>.jar server config.yml`
+1. To check that your application is running enter url `http://localhost:8080`
+1. A helpful Linux/Mac alias to do this: `alias slackboat='cd <path to repo>; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'`
+
 # Future improvements
 ---
 Malware/phishing/etc. databases should be retrieved at server start, and periodically after that.
 
 This server currently loads files that were retrieved between October 24th 2017 and November 2nd 2017, or thereabouts.
-
-# How do I even...?
----
-
-1. Run `mvn clean install` to build your application
-1. Start application with `java -jar target/idiotbot-<version>.jar server config.yml`
-1. To check that your application is running enter url `http://localhost:8080`
-1. A helpful alias to do this: `alias slackboat='cd <path to repo>/slackboat; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'`
 
 # Exposed REST apis
 ---
