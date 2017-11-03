@@ -44,10 +44,14 @@ How to start the Slackboat server
 Exposed REST apis
 ---
 `POST /api/is_blacklisted` Checks a given email against a list of known bad boy disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains
+
 `POST /api/is_phishy` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/ and here https://openphish.com/phishing_feeds.html
+
 `POST /api/is_zeus_domain` Checks a given domain against a list of known zeus trojan domains, maintained here: 
 https://zeustracker.abuse.ch/blocklist.php?download=baddomains
+
 `POST /api/is_zeus_ipv4` Checks a given ipv4 address against a list of known zeus trojan ip addresses, maintained here:
 https://zeustracker.abuse.ch/blocklist.php?download=badips
+
 `POST /api/find_any_match` Checks a given text input against all of the above databases.
 
