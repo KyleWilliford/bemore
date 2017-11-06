@@ -1,3 +1,13 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+    - type: https
+      port: 8443
+      keyStorePath: selfsigned.jks
+      keyStorePassword: 1qaz@WSX
+      validateCerts: false
+
 logging:
   level: DEBUG
   loggers:
@@ -6,6 +16,7 @@ logging:
     org.apache.http: INFO
     com.codahale.metrics.httpclient: INFO
   appenders:
+    - type: console
     - type: file
       # The file to which current statements will be logged.
       currentLogFilename: ./logs/slackboat.log
