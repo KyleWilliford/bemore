@@ -2,12 +2,6 @@ server:
   applicationConnectors:
     - type: http
       port: 8080
-    - type: https
-      port: 8443
-      keyStorePath: selfsigned.jks
-      keyStorePassword: 1qaz@WSX
-      validateCerts: false
-      validatePeers: false
 
 logging:
   level: DEBUG
