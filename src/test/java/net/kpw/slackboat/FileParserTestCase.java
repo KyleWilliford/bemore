@@ -11,7 +11,6 @@ import org.junit.Test;
 import net.kpw.slackboat.util.FileParser;
 
 public class FileParserTestCase {
-    @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(FileParserTestCase.class);
     
     
@@ -28,6 +27,6 @@ public class FileParserTestCase {
     public void parseURLsSecondColumn() {
         final String TEST_FILE_RESOURCE_PATH = "/phishtank.csv";
         Set<String> lines = fileParser.parseURLsSecondColumn(getClass().getResourceAsStream(TEST_FILE_RESOURCE_PATH));
-        assertEquals(lines.size(), 22278);
+        assertEquals(lines.size(), 22373);
     }
 }

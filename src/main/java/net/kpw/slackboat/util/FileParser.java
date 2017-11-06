@@ -78,14 +78,18 @@ public class FileParser {
     public Set<String> parseURLsSecondColumn(InputStream inputStream) {
         final Set<String> lines = this.parseLines(inputStream);
         // return a set of the values from the second column
-        return lines.parallelStream().map(line -> {
-            String[] split = line.split(",");
+        String[] split;
+        for (String line : lines) {
+            split = line.split(",");
             if (split.length >= 2) {
-                return split[1].trim().toLowerCase(); // url column
+                String url = split[1].trim().toLowerCase(); // url column
+                if ("url".equalsIgnoreCase(url) || StringUtils.isBlank(url)) {
+                    LOG.debug("filtering out " + url);
+                    lines.remove(line);
+                }
             }
-            return "";
-        })
-        .filter(url -> !"url".equalsIgnoreCase(url) && StringUtils.isNotBlank(url))
-        .collect(Collectors.toCollection(() -> new TreeSet<>()));
+        }
+        LOG.debug("lines " + lines.size());
+        return lines;
     }
 }
