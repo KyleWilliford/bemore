@@ -1,4 +1,9 @@
 # slackboat chat bot
+Click the following button to sail the slackboat into your workspace.
+
+Note: this request communicates with a live version of this slackboat app server deployed on an AWS EC2 instance.
+
+<a href="https://slack.com/oauth/authorize?&client_id=261022332754.262110268791&scope=commands"><img alt="Sail slackboat into your workspace" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
 # What is this?
 This is a server for the Slackboat Slack application. This server exposes a RESTful API for the Slackboat Slack app to use to process commands. This server can also be used to authorize installations of the Slackboat Slack app using Slack's OAuth authorization APIs.
