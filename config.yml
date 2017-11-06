@@ -5,6 +5,21 @@ logging:
     org.eclipse.jetty: INFO
     org.apache.http: INFO
     com.codahale.metrics.httpclient: INFO
+  appenders:
+    - type: file
+      # The file to which current statements will be logged.
+      currentLogFilename: ./logs/slackboat.log
+
+      # When the log file rotates, the archived log will be renamed to this and gzipped. The
+      # %d is replaced with the previous day (yyyy-MM-dd). Custom rolling windows can be created
+      # by passing a SimpleDateFormat-compatible format as an argument: "%d{yyyy-MM-dd-hh}".
+      archivedLogFilenamePattern: ./logs/slackboat-%d.log.gz
+
+      # The number of archived files to keep.
+      archivedFileCount: 2
+
+      # The timezone used to format dates. HINT: USE THE DEFAULT, UTC.
+      timeZone: UTC
     
 httpClient:
   timeout: 5000ms
