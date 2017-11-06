@@ -79,9 +79,13 @@ https://zeustracker.abuse.ch/blocklist.php?download=badips
 
 `POST /api/find_any_match` Checks a given text input against all of the above databases.
 
-# Future improvements
+# Future Improvements and TODOs
 
-Malware/phishing/etc. databases should be retrieved at server start, and periodically after that.
-
-This server currently loads files that were retrieved between October 24th 2017 and November 2nd 2017, or thereabouts.
+- Malware/phishing/etc. databases should be retrieved at server start, and periodically after that. This server currently loads files that were retrieved between October 24th 2017 and November 2nd 2017, or thereabouts.
+- Public app distribution
+- Add slack permission scope (required for public distribution)
+- Enable HTTPS (required for public distribution)
+- Encrypt client secret (required for public distribution)
+- Review Slack app distrubution terms of service/developer guides
+- More features and stuff?
 
