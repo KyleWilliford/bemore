@@ -128,3 +128,7 @@ https://zeustracker.abuse.ch/blocklist.php?download=badips
 - Review Slack app distrubution terms of service/developer guides (required for public distribution)
 - More content features and stuff? Interactivity? More slash commands that do different things?
 
+# Travis CI
+
+https://travis-ci.org/KyleWilliford/slackboat
+
