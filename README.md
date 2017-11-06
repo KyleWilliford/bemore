@@ -12,7 +12,7 @@ This server's api paths and methods types are listed near the end of this readme
 
 ### Why did you name this "slackboat"
 
-'Cause it is sort of similar to slackbot, I guess? Also, ~phishing~ fishing is sometimes done ~by bots~ on boats. That is sort of related, right? This bot does not do anything intentionally malicious.
+'Cause it is sort of similar to slackbot, I guess? Also, ~phishing~ fishing is sometimes done ~by bots~ on boats. That is sort of related, right?
 
 ## Install _Slackboat App_ to Your Workspace (live version)
 
