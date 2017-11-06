@@ -104,7 +104,7 @@ Slash Command URLs:
 
 `<server url>/api/<command path>`
 
-## Exposed REST apis
+## Server REST API
 
 `POST /api/is_blacklisted` Checks a given email against a list of known bad boy disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains
 
