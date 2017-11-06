@@ -47,14 +47,16 @@ public class SlackOAuthResource {
     public Response authorize(@Context HttpServletRequest request) {
         final String code = request.getParameter("code");
         LOG.debug(code);
-        
+        if (StringUtils.isBlank(code)) {
+            return Response.serverError().entity("Oh, uh... okay, bye!").build();
+        }
         StringBuilder sb = new StringBuilder("https://slack.com/api/oauth.access?code=").append(code);
         sb.append("&client_id=").append(slackClientAppConfiguration.getClientID())
             .append("&client_secret=").append(slackClientAppConfiguration.getClientSecret());
         final String uri = sb.toString();
         LOG.debug(uri);
         if (StringUtils.isBlank(uri)) {
-            return Response.ok().entity("Okay, bye!").build();
+            return Response.serverError().entity("Sorry, something went wrong!").build();
         }
         HttpGet httpGet = new HttpGet(uri);
         httpGet.setHeader("Content-type", "application/x-www-form-urlencoded");
