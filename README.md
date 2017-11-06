@@ -20,9 +20,9 @@ https://kpw-slack-dev.slack.com/apps/A7Q387WP9-slackboat
 
 Click the following button to sail the Slackboat into your workspace.
 
-Note: this request communicates with a live version of this server deployed on an AWS EC2 instance.
-
 <a href="https://slack.com/oauth/authorize?&client_id=261022332754.262110268791&scope=commands"><img alt="Sail slackboat into your workspace" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+
+Note: this request communicates with a live version of this Slackboat _server_, deployed on an AWS EC2 instance.
 
 ## Now what?
 
