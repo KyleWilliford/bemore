@@ -48,7 +48,7 @@ public class SlackOAuthResource {
         final String code = request.getParameter("code");
         LOG.debug(code);
         if (StringUtils.isBlank(code)) {
-            return Response.serverError().entity("Oh, uh... okay, bye!").build();
+            return Response.serverError().entity("Oh, uh... okay, bye! ¯\\_(ツ)_/¯").build();
         }
         StringBuilder sb = new StringBuilder("https://slack.com/api/oauth.access?code=").append(code);
         sb.append("&client_id=").append(slackClientAppConfiguration.getClientID())
