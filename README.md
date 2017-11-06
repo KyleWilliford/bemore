@@ -8,7 +8,7 @@ The Slackboat _bot_ adds some slash commands to your workspace. Read the next fe
 
 The Slackboat _server_ processes commands from users who have installed the _bot_ into their workspace. The _server_ also implements a method for authorizing installation of the app into your workspace.
 
-This server's api paths and methods types are listed near the end of this readme.
+This server's api paths and method types are listed near the end of this readme.
 
 ### Why did you name this "slackboat"
 
