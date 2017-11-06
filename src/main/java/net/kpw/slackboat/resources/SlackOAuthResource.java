@@ -9,6 +9,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -52,6 +53,9 @@ public class SlackOAuthResource {
             .append("&client_secret=").append(slackClientAppConfiguration.getClientSecret());
         final String uri = sb.toString();
         LOG.debug(uri);
+        if (StringUtils.isBlank(uri)) {
+            return Response.ok().entity("Okay, bye!").build();
+        }
         HttpGet httpGet = new HttpGet(uri);
         httpGet.setHeader("Content-type", "application/x-www-form-urlencoded");
         try {
