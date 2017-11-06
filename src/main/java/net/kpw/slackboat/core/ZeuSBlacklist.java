@@ -21,9 +21,9 @@ public class ZeuSBlacklist extends DomainBlacklist {
 
     public ZeuSBlacklist(final Set<String> domains, final Set<String> ipv4Addresses) {
         super(domains);
-        LOG.info("Loaded " + this.domains.size()+ " blacklisted ZeuS domains.");
+        LOG.info("Loaded " + this.domains.size() + " blacklisted ZeuS domains.");
         this.ipv4Addresses = ipv4Addresses;
-        LOG.info("Loaded " + this.ipv4Addresses.size()+ " blacklisted ZeuS trojan ipv4 addresses.");
+        LOG.info("Loaded " + this.ipv4Addresses.size() + " blacklisted ZeuS trojan ipv4 addresses.");
     }
 
     /**
@@ -34,35 +34,11 @@ public class ZeuSBlacklist extends DomainBlacklist {
     }
 
     /**
-     * Return true if the given string includes a domain in the blacklist of domains.
-     * The input can be an email or domain name.
-     * 
-     * @param input
-     *            An email or domain name.
-     * @return True if the string is in the blacklist.
-     */
-    @Override
-    public boolean isDomainBlacklisted(final String input) {
-        LOG.debug(input);
-        if (StringUtils.isBlank(input))
-            return false;
-        String[] split = input.split("@");
-        if (split.length == 0) {
-            return false;
-        } else if (split.length == 1) {
-            LOG.debug(split[0]);
-            return domains.contains(split[0]);
-        } else if (split.length > 1) {
-            LOG.debug(split[1]);
-            return domains.contains(split[1]);
-        }
-        return false;
-    }
-
-    /**
+     * Return true if the given string includes an ipv4 address in the blacklist of ipv4 addresses.
      * 
      * @param ipv4
-     * @return
+     *            The IPv4 address.
+     * @return True if the address is in the blacklist.
      */
     public boolean isIPBlacklisted(final String ipv4) {
         LOG.debug(ipv4);

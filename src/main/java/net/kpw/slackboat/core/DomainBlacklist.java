@@ -41,9 +41,11 @@ public class DomainBlacklist {
      */
     public boolean isDomainBlacklisted(final String input) {
         LOG.debug(input);
-        if (StringUtils.isBlank(input))
+        if (StringUtils.isBlank(input)) {
             return false;
-        String[] split = input.split("@");
+        }
+        final String inputLowerCase = input.toLowerCase();
+        String[] split = inputLowerCase.split("@");
         if (split.length == 0) {
             return false;
         } else if (split.length == 1) {

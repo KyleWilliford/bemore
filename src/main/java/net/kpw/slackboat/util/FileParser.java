@@ -53,7 +53,7 @@ public class FileParser {
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         Set<String> lines = new TreeSet<>();
         try {
-            lines = br.lines().map(String::trim).filter(StringUtils::isNotBlank).collect(Collectors.toCollection(() -> new TreeSet<>()));
+            lines = br.lines().map(line -> line.trim().toLowerCase()).filter(StringUtils::isNotBlank).collect(Collectors.toCollection(() -> new TreeSet<>()));
             LOG.debug("Parsed " + lines.size() + " lines.");
         } catch (Exception e) {
             LOG.error(e);
@@ -81,7 +81,7 @@ public class FileParser {
         return lines.parallelStream().map(line -> {
             String[] split = line.split(",");
             if (split.length >= 2) {
-                return split[1].trim(); // url column
+                return split[1].trim().toLowerCase(); // url column
             }
             return "";
         })

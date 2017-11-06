@@ -38,7 +38,7 @@ public abstract class Phishery {
      */
     public boolean isURLAPhishery(final String url) {
         LOG.debug(url);
-        return this.urls.contains(url);
+        return this.urls.contains(url.toLowerCase());
     }
 
     /**
