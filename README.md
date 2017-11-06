@@ -27,6 +27,8 @@ Open up your slack client and try out the new commands!
 ![Alt text](/images/slash_commands_1.png?raw=true "slash command set 1")
 ![Alt text](/images/slash_commands_2.png?raw=true "slash command set 2")
 
+![Alt text](/images/find_any_result.png?raw=true "find any result")
+
 
 # Development, running this server locally, tunneling, and deployment
 
