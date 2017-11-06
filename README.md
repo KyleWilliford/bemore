@@ -2,7 +2,7 @@
 
 ## Wait, what is this?
 
-This is the server for the Slackboat Slack app. What's that? Never heard of it? Makes sense. Slackboat is a Slack chat bot that I created and it is not publicly distributed. 
+This is the server for the Slackboat Slack app. What's that? Never heard of it? Makes sense. Slackboat is a Slack chat bot that I created and it is not publicly distributed. Here is the client app: https://kpw-slack-dev.slack.com/apps/A7Q387WP9-slackboat
 
 The Slackboat _bot_ adds some slash commands to your workspace. Read the next few sections for more detail on what is added and how to use these commands.
 
@@ -15,8 +15,6 @@ This server's api paths and method types are listed near the end of this readme.
 'Cause it is sort of similar to slackbot, I guess? Also, ~phishing~ fishing is sometimes done ~by bots~ on boats. That is sort of related, right?
 
 ## Install _Slackboat App_ to Your Workspace (live version)
-
-https://kpw-slack-dev.slack.com/apps/A7Q387WP9-slackboat
 
 Click the following button to sail the Slackboat into your workspace.
 
