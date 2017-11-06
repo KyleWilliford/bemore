@@ -1,10 +1,12 @@
-# slackboat chat bot
+# Slackboat chat bot server
 
 ## Wait, what is this?
 
-This is a server for the slackboat Slack application. This bot adds some slash commands to your workspace. Read the next few sections for more detail on what is added.
+This is the server for the Slackboat Slack app. What's that? Never heard of it? Makes sense. Slackboat is a Slack chat bot that I created and it is not publicly distributed. 
 
-This server exposes a RESTful API for the Slackboat Slack app to use to process slash commands. This server can also be used to authorize installations of the Slackboat Slack app using Slack's OAuth authorization APIs.
+The Slackboat _bot_ adds some slash commands to your workspace. Read the next few sections for more detail on what is added and how to use these commands.
+
+The Slackboat _server_ processes commands from users who have installed the _bot_ into their workspace. The _server_ also implements a method for authorizing installation of the app into your workspace.
 
 This server's api paths and methods types are listed near the end of this readme.
 
@@ -12,11 +14,11 @@ This server's api paths and methods types are listed near the end of this readme
 
 'Cause it is sort of similar to slackbot, I guess? Also, ~phishing~ fishing is sometimes done ~by bots~ on boats. That is sort of related, right? This bot does not do anything intentionally malicious.
 
-## Install App to Workspace (public, live version)
+## Install _Slackboat App_ to Your Workspace (live version)
 
-Click the following button to sail the slackboat into your workspace.
+Click the following button to sail the Slackboat into your workspace.
 
-Note: this request communicates with a live version of this slackboat app server deployed on an AWS EC2 instance.
+Note: this request communicates with a live version of this server deployed on an AWS EC2 instance.
 
 <a href="https://slack.com/oauth/authorize?&client_id=261022332754.262110268791&scope=commands"><img alt="Sail slackboat into your workspace" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
