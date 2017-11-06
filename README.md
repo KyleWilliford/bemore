@@ -10,25 +10,27 @@ Note: this request communicates with a live version of this slackboat app server
 
 # What is this?
 
-This is a server for the Slackboat Slack application. This server exposes a RESTful API for the Slackboat Slack app to use to process commands. This server can also be used to authorize installations of the Slackboat Slack app using Slack's OAuth authorization APIs.
+This is a server for the Slackboat Slack application. This server exposes a RESTful API for the Slackboat Slack app to use to process slash commands. This server can also be used to authorize installations of the Slackboat Slack app using Slack's OAuth authorization APIs. None of this is currently performed over an encrypted connection, except the initial request to install the app to your workspace, so user beware.
 
-This server's api paths and methods types are listed at the end of this file.
+This server's api paths and methods types are listed at the end of this readme.
+
+# Development, running this server locally, tunneling, and deployment
 
 For ease of development locally, use ngrok: https://ngrok.com/
 ---
-This will make it possible for your Slack client to forward requests from users (you) to your local server over the internet, without having to deploy this server to a remote environment (an AWS EC2 node, for example) during development.
-
-# Running this slackboat server
+This will make it possible for your Slack client to send requests from users (i.e. you or whoever has install the app) to your local server over the internet. The point of this is that you will not have to deploy this server to a remote environment (an AWS EC2 node, for example) every time you want to test a change during development.
 
 ## Requirements
 
-Java JDK 8 (development) / JRE 8 (runtime)
+A Not Terrible Internet Connection (duh)
+
+Java JDK 8 (compile) / JRE 8 (runtime)
 
 Maven 3.x.x
 
 ngrok 2.8.x (development, localhost)
 
-Not Terrible Internet Connection (duh)
+Up-to-date version of a Slack client
 
 ## Install ngrok:
 
@@ -50,7 +52,9 @@ You will need to configure the slack app to send requests to the tunneled domain
 
 ## How do I start the server?
 
+1. Install dependencies (listed above)
 1. Clone the repo
+1. Change directory to repo `cd <path to repo>`
 1. Run `mvn clean install` to build the application
 1. Start the application with `java -jar target/slackboat-<version>.jar server config.yml`
 1. A helpful Linux/Mac alias to do this: `alias slackboat='cd <path to repo>; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'` (check the current version in the pom.xml file)
@@ -81,11 +85,11 @@ https://zeustracker.abuse.ch/blocklist.php?download=badips
 
 # Future Improvements and TODOs
 
-- Malware/phishing/etc. databases should be retrieved at server start, and periodically after that. This server currently loads files that were retrieved between October 24th 2017 and November 2nd 2017, or thereabouts.
-- Public app distribution
+- The relevant databases should be retrieved at server start, and periodically after that. This server currently loads files that were retrieved between October 24th 2017 and November 2nd 2017, or thereabouts, so the data is not current.
+- Manage public app distribution
 - Add slack permission scope (required for public distribution)
 - Enable HTTPS (required for public distribution)
 - Encrypt client secret (required for public distribution)
-- Review Slack app distrubution terms of service/developer guides
-- More features and stuff?
+- Review Slack app distrubution terms of service/developer guides (required for public distribution)
+- More content features and stuff? Interactivity? More slash commands that do different things?
 
