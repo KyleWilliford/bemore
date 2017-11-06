@@ -46,14 +46,14 @@ You should see something similar to this:
 
 More documentation on ngrok: https://ngrok.com/docs/2
 
-You will need to configure the slack bot to send requests to the tunneled domain. Look at the ngrok output to get the public domain.
+You will need to configure the slack app to send requests to the tunneled domain. Look at the ngrok output to get the public domain.
 
 ## How do I start the server?
 
+1. Clone the repo
 1. Run `mvn clean install` to build the application
 1. Start the application with `java -jar target/slackboat-<version>.jar server config.yml`
-1. To check that your application is running enter url `http://localhost:8080`
-1. A helpful Linux/Mac alias to do this: `alias slackboat='cd <path to repo>; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'`
+1. A helpful Linux/Mac alias to do this: `alias slackboat='cd <path to repo>; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'` (check the current version in the pom.xml file)
 
 ### URLs
 
