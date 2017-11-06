@@ -26,6 +26,21 @@ Note: this request communicates with a live version of this server deployed on a
 
 Open up your slack client and try out the new commands!
 
+There are currently only 5 commands:
+`/is_blacklisted [email]` Checks a given email string against a list of known disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains
+
+`/is_phishy [url]` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/ and here https://openphish.com/phishing_feeds.html
+
+`is_zeus_domain [domain]` Checks a given domain against a list of known ZeuS trojan domains, maintained here: 
+https://zeustracker.abuse.ch/blocklist.php?download=baddomains
+
+`/is_zeus_ipv4 [ipv4]` Checks a given ipv4 address against a list of known ZeuS trojan ip addresses, maintained here:
+https://zeustracker.abuse.ch/blocklist.php?download=badips
+
+`/find_any_match [text]` Checks a given text input against all of the above databases.
+
+No natural language processing is applied to these terms. An exact match (case insensitive) is all that is checked.
+
 ![Alt text](/images/slash_commands_1.png?raw=true "slash command set 1")
 ![Alt text](/images/slash_commands_2.png?raw=true "slash command set 2")
 
@@ -93,10 +108,10 @@ Slash Command URLs:
 
 `POST /api/is_phishy` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/ and here https://openphish.com/phishing_feeds.html
 
-`POST /api/is_zeus_domain` Checks a given domain against a list of known zeus trojan domains, maintained here: 
+`POST /api/is_zeus_domain` Checks a given domain against a list of known ZeuS trojan domains, maintained here: 
 https://zeustracker.abuse.ch/blocklist.php?download=baddomains
 
-`POST /api/is_zeus_ipv4` Checks a given ipv4 address against a list of known zeus trojan ip addresses, maintained here:
+`POST /api/is_zeus_ipv4` Checks a given ipv4 address against a list of known ZeuS trojan ip addresses, maintained here:
 https://zeustracker.abuse.ch/blocklist.php?download=badips
 
 `POST /api/find_any_match` Checks a given text input against all of the above databases.
