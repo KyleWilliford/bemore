@@ -16,6 +16,8 @@ This server's api paths and methods types are listed near the end of this readme
 
 ## Install _Slackboat App_ to Your Workspace (live version)
 
+https://kpw-slack-dev.slack.com/apps/A7Q387WP9-slackboat
+
 Click the following button to sail the Slackboat into your workspace.
 
 Note: this request communicates with a live version of this server deployed on an AWS EC2 instance.
