@@ -7,10 +7,10 @@ import org.apache.http.client.HttpClient;
 import io.dropwizard.Application;
 import io.dropwizard.client.HttpClientBuilder;
 import io.dropwizard.setup.Environment;
-import net.kpw.slackboat.core.DomainBlacklist;
+import net.kpw.slackboat.core.DisposableMalwareDomainList;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
-import net.kpw.slackboat.core.ZeuSBlacklist;
+import net.kpw.slackboat.core.ZeuS;
 import net.kpw.slackboat.resources.SlackBoatResource;
 import net.kpw.slackboat.resources.SlackOAuthResource;
 import net.kpw.slackboat.util.FileParser;
@@ -56,14 +56,14 @@ public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
         
         final FileParser fileParser = FileParser.getInstance();
 
-        final DomainBlacklist domainBlacklist = new DomainBlacklist(fileParser.parseLines(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
+        final DisposableMalwareDomainList disposableMalwareDomainList = new DisposableMalwareDomainList(fileParser.parseLines(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
         final PhishTank phishTank = new PhishTank(fileParser.parseURLsSecondColumn(getClass().getResourceAsStream("/phishtank.csv")));
         final OpenPhish openPhish = new OpenPhish(fileParser.parseLines(getClass().getResourceAsStream("/openphish.txt")));
-        final ZeuSBlacklist zeusBlacklist = new ZeuSBlacklist(fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")), 
+        final ZeuS zeus = new ZeuS(fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")), 
                 fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
 
         // Resources
-        final SlackBoatResource slackBoatResource = new SlackBoatResource(domainBlacklist, phishTank, openPhish, zeusBlacklist, 
+        final SlackBoatResource slackBoatResource = new SlackBoatResource(disposableMalwareDomainList, phishTank, openPhish, zeus, 
                 configuration.getSlackClientAppConfiguration().getVerificationToken());
         final SlackOAuthResource slackOAuthResource = new SlackOAuthResource(configuration.getSlackClientAppConfiguration(), httpClient);
         environment.jersey().register(slackBoatResource);

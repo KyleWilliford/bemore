@@ -1,22 +1,35 @@
 package net.kpw.slackboat.core;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * OpenPhish url database.
+ * Refined abstraction class in bridge pattern. Represents an OpenPhish database.
  * 
  * @author kwilliford
- * @created Nov 2, 2017
+ * @created Nov 7, 2017
  *
  */
-public class OpenPhish extends Phishery {
+public final class OpenPhish extends BlackList {
+    @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(OpenPhish.class);
+    private Set<String> urls = new TreeSet<>();
+    
+    public OpenPhish(Set<String> urls) {
+        this.urls = urls;
+    }
 
-    public OpenPhish(final Set<String> urls) {
-        super(urls);
-        LOG.info("Loaded " + this.urls.size()+ " OpenPhish URLs.");
+    /**
+     * Return true if the url is in the list of phishy urls.
+     * 
+     * @param url
+     *            The url to check.
+     * @return True if the url is bad.
+     */
+    public boolean isURLBlacklisted(final String url) {
+        return super.urlBlackListImpl.isBlacklisted(url, this.urls);
     }
 }

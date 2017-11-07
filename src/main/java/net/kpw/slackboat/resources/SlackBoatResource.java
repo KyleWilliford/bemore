@@ -11,10 +11,10 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.kpw.slackboat.core.DomainBlacklist;
+import net.kpw.slackboat.core.DisposableMalwareDomainList;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
-import net.kpw.slackboat.core.ZeuSBlacklist;
+import net.kpw.slackboat.core.ZeuS;
 
 /**
  * @author kwilliford
@@ -26,19 +26,19 @@ public class SlackBoatResource {
     private static final Log LOG = LogFactory.getLog(SlackBoatResource.class);
 
     private static final String VERIFICATION_TOKEN_INVALID = "Verification token invalid.";
-    private final DomainBlacklist domainBlacklist;
+    private final DisposableMalwareDomainList disposableMalwareDomainList;
     private final PhishTank phishTank;
     private final OpenPhish openPhish;
-    private final ZeuSBlacklist zeusBlacklist;
+    private final ZeuS zeus;
 
     private final String verificationToken;
 
-    public SlackBoatResource(final DomainBlacklist domainBlacklist, final PhishTank phishTank, final OpenPhish openPhish,
-            final ZeuSBlacklist zeusBlacklist, final String verificationToken) {
-        this.domainBlacklist = domainBlacklist;
+    public SlackBoatResource(final DisposableMalwareDomainList disposableMalwareDomainList, final PhishTank phishTank, final OpenPhish openPhish,
+            final ZeuS zeus, final String verificationToken) {
+        this.disposableMalwareDomainList = disposableMalwareDomainList;
         this.phishTank = phishTank;
         this.openPhish = openPhish;
-        this.zeusBlacklist = zeusBlacklist;
+        this.zeus = zeus;
         this.verificationToken = verificationToken;
     }
 
@@ -51,11 +51,11 @@ public class SlackBoatResource {
         if (!verifyToken(token)) {
             return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
         }
-        final boolean matchDisposableEmailDomain = domainBlacklist.isDomainBlacklisted(text);
-        final boolean matchPhishTank = phishTank.isURLAPhishery(text);
-        final boolean matchOpenPhish = openPhish.isURLAPhishery(text);
-        final boolean matchZeuSDomains = zeusBlacklist.isDomainBlacklisted(text);
-        final boolean matchZeuSIPv4 = zeusBlacklist.isIPBlacklisted(text);
+        final boolean matchDisposableEmailDomain = disposableMalwareDomainList.isDomainBlacklisted(text);
+        final boolean matchPhishTank = phishTank.isURLBlacklisted(text);
+        final boolean matchOpenPhish = openPhish.isURLBlacklisted(text);
+        final boolean matchZeuSDomains = zeus.isDomainBlacklisted(text);
+        final boolean matchZeuSIPv4 = zeus.isIPBlacklisted(text);
         StringBuilder sb = new StringBuilder("That input matches:");
         if (matchDisposableEmailDomain) {
             sb.append("\nThe Disposable Email Blacklist (Spam domains)");
@@ -85,7 +85,7 @@ public class SlackBoatResource {
             return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
         }
         String responseText;
-        if (domainBlacklist.isDomainBlacklisted(text)) {
+        if (disposableMalwareDomainList.isDomainBlacklisted(text)) {
             responseText = "Found it! Don't trust that domain! It's bad, m'kay.";
         } else {
             responseText = "I couldn't find that domain in the blacklist of domains.";
@@ -103,7 +103,7 @@ public class SlackBoatResource {
             return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
         }
         String responseText;
-        if (phishTank.isURLAPhishery(text) || openPhish.isURLAPhishery(text)) {
+        if (phishTank.isURLBlacklisted(text) || openPhish.isURLBlacklisted(text)) {
             responseText = "Found it! Don't trust that url! It's bad, m'kay.";
         } else {
             responseText = "I couldn't find that url in my database of known phishing urls.";
@@ -121,7 +121,7 @@ public class SlackBoatResource {
             return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
         }
         String responseText;
-        if (zeusBlacklist.isDomainBlacklisted(text)) {
+        if (zeus.isDomainBlacklisted(text)) {
             responseText = "Found it! Don't trust that domain! It's bad, m'kay.";
         } else {
             responseText = "I couldn't find that domain in the blacklist of ZeuS domains.";
@@ -139,7 +139,7 @@ public class SlackBoatResource {
             return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
         }
         String responseText;
-        if (zeusBlacklist.isIPBlacklisted(text)) {
+        if (zeus.isIPBlacklisted(text)) {
             responseText = "Found it! Don't trust that ip address! It's bad, m'kay.";
         } else {
             responseText = "I couldn't find that ip address in the blacklist of ZeuS domains.";
