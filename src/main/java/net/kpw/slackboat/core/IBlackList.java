@@ -13,8 +13,10 @@ interface IBlackList {
     /**
      * Return true if the given string input is contained in the provided Collection of strings.
      * 
-     * @param input The input to test.
-     * @param strings The collection.
+     * @param input
+     *            The input to test.
+     * @param strings
+     *            The collection.
      * @return True if the collection contains the string.
      */
     public boolean isBlacklisted(final String input, final Collection<String> strings);

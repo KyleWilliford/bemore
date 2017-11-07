@@ -17,9 +17,16 @@ public final class OpenPhish extends BlackList {
     @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(OpenPhish.class);
     private Set<String> urls = new TreeSet<>();
-    
+
     public OpenPhish(Set<String> urls) {
         this.urls = urls;
+    }
+
+    /**
+     * @return the urls
+     */
+    public Set<String> getUrls() {
+        return urls;
     }
 
     /**
@@ -31,5 +38,13 @@ public final class OpenPhish extends BlackList {
      */
     public boolean isURLBlacklisted(final String url) {
         return super.urlBlackListImpl.isBlacklisted(url, this.urls);
+    }
+
+    /**
+     * @param urls
+     *            the urls to set
+     */
+    public void setUrls(Set<String> urls) {
+        this.urls = urls;
     }
 }

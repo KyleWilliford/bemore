@@ -18,10 +18,24 @@ public final class ZeuS extends BlackList {
     private static final Log LOG = LogFactory.getLog(ZeuS.class);
     private Set<String> domains = new TreeSet<>();
     private Set<String> ipv4Addresses = new TreeSet<>();
-    
+
     public ZeuS(Set<String> domains, Set<String> ipv4Addresses) {
         this.domains = domains;
         this.ipv4Addresses = ipv4Addresses;
+    }
+
+    /**
+     * @return the domains
+     */
+    public Set<String> getDomains() {
+        return domains;
+    }
+
+    /**
+     * @return the ipv4Addresses
+     */
+    public Set<String> getIpv4Addresses() {
+        return ipv4Addresses;
     }
 
     /**
@@ -45,5 +59,21 @@ public final class ZeuS extends BlackList {
      */
     public boolean isIPBlacklisted(final String ipv4) {
         return super.ipv4BlackListImpl.isBlacklisted(ipv4, this.ipv4Addresses);
+    }
+
+    /**
+     * @param domains
+     *            the domains to set
+     */
+    public void setDomains(Set<String> domains) {
+        this.domains = domains;
+    }
+
+    /**
+     * @param ipv4Addresses
+     *            the ipv4Addresses to set
+     */
+    public void setIpv4Addresses(Set<String> ipv4Addresses) {
+        this.ipv4Addresses = ipv4Addresses;
     }
 }

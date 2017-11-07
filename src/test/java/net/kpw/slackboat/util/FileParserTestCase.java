@@ -1,4 +1,4 @@
-package net.kpw.slackboat;
+package net.kpw.slackboat.util;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,9 +8,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import net.kpw.slackboat.util.FileParser;
-
+/**
+ * Unit tests for {@link FileParser}
+ * @author kwilliford
+ * @created Nov 7, 2017
+ *
+ */
 public class FileParserTestCase {
+    @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(FileParserTestCase.class);
     
     
