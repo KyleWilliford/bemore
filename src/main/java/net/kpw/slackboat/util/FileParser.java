@@ -23,10 +23,12 @@ import org.apache.commons.logging.LogFactory;
 public class FileParser {
     static final Log LOG = LogFactory.getLog(FileParser.class);
 
-    private static FileParser instance = new FileParser();
+    private FileParser() {}
 
-    private FileParser() {
+    private static class LazyHolder {
+        static final FileParser INSTANCE = new FileParser();
 
+        private LazyHolder() {}
     }
 
     /**
@@ -35,10 +37,7 @@ public class FileParser {
      * @return The instance.
      */
     public static FileParser getInstance() {
-        if (instance == null) {
-            return new FileParser();
-        }
-        return instance;
+        return LazyHolder.INSTANCE;
     }
 
     /**
@@ -53,7 +52,8 @@ public class FileParser {
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         Set<String> lines = new TreeSet<>();
         try {
-            lines = br.lines().map(line -> line.trim().toLowerCase()).filter(StringUtils::isNotBlank).collect(Collectors.toCollection(() -> new TreeSet<>()));
+            lines = br.lines().map(line -> line.trim().toLowerCase()).filter(StringUtils::isNotBlank)
+                    .collect(Collectors.toCollection(() -> new TreeSet<>()));
             LOG.debug("Parsed " + lines.size() + " lines.");
         } catch (Exception e) {
             LOG.error(e);
