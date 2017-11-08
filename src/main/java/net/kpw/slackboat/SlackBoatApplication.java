@@ -10,7 +10,7 @@ import io.dropwizard.setup.Environment;
 import net.kpw.slackboat.core.DisposableMalwareDomainList;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
-import net.kpw.slackboat.core.ZeuS;
+import net.kpw.slackboat.core.ZeuSDomainList;
 import net.kpw.slackboat.resources.SlackBoatResource;
 import net.kpw.slackboat.resources.SlackOAuthResource;
 import net.kpw.slackboat.util.FileParser;
@@ -59,7 +59,7 @@ public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
         final DisposableMalwareDomainList disposableMalwareDomainList = new DisposableMalwareDomainList(fileParser.parseLines(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
         final PhishTank phishTank = new PhishTank(fileParser.parseURLsSecondColumn(getClass().getResourceAsStream("/phishtank.csv")));
         final OpenPhish openPhish = new OpenPhish(fileParser.parseLines(getClass().getResourceAsStream("/openphish.txt")));
-        final ZeuS zeus = new ZeuS(fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")), 
+        final ZeuSDomainList zeus = new ZeuSDomainList(fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")), 
                 fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
 
         // Resources

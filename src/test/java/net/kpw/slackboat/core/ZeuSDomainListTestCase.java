@@ -8,18 +8,19 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import net.kpw.slackboat.core.ZeuS;
+import net.kpw.slackboat.core.ZeuSDomainList;
 import net.kpw.slackboat.util.FileParser;
 
 /**
- * Unit tests for {@link ZeuS}
+ * Unit tests for {@link ZeuSDomainList}
+ * 
  * @author kwilliford
  * @created Nov 7, 2017
  *
  */
-public class ZeuSTestCase {
+public class ZeuSDomainListTestCase {
     private static final FileParser fileParser = FileParser.getInstance();
-    private final ZeuS zeus = new ZeuS(fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")),
+    private final ZeuSDomainList zeus = new ZeuSDomainList(fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")),
             fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
     final Set<String> domains = fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt"));
     final Set<String> ipv4Addresses = fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt"));

@@ -13,13 +13,13 @@ import org.apache.commons.logging.LogFactory;
  * @created Nov 7, 2017
  *
  */
-public final class ZeuS extends BlackList {
+public final class ZeuSDomainList extends BlackList {
     @SuppressWarnings("unused")
-    private static final Log LOG = LogFactory.getLog(ZeuS.class);
+    private static final Log LOG = LogFactory.getLog(ZeuSDomainList.class);
     private Set<String> domains = new TreeSet<>();
     private Set<String> ipv4Addresses = new TreeSet<>();
 
-    public ZeuS(Set<String> domains, Set<String> ipv4Addresses) {
+    public ZeuSDomainList(Set<String> domains, Set<String> ipv4Addresses) {
         this.domains = domains;
         this.ipv4Addresses = ipv4Addresses;
     }

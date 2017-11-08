@@ -10,6 +10,7 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link FileParser}
+ * 
  * @author kwilliford
  * @created Nov 7, 2017
  *
@@ -17,8 +18,7 @@ import org.junit.Test;
 public class FileParserTestCase {
     @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(FileParserTestCase.class);
-    
-    
+
     private final FileParser fileParser = FileParser.getInstance();
 
     @Test
@@ -27,7 +27,7 @@ public class FileParserTestCase {
         Set<String> lines = fileParser.parseLines(getClass().getResourceAsStream(TEST_FILE_RESOURCE_PATH));
         assertEquals(lines.size(), 2677);
     }
-    
+
     @Test
     public void parseURLsSecondColumn() {
         final String TEST_FILE_RESOURCE_PATH = "/phishtank.csv";

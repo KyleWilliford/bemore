@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import net.kpw.slackboat.core.DisposableMalwareDomainList;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
-import net.kpw.slackboat.core.ZeuS;
+import net.kpw.slackboat.core.ZeuSDomainList;
 
 /**
  * @author kwilliford
@@ -29,12 +29,12 @@ public class SlackBoatResource {
     private final DisposableMalwareDomainList disposableMalwareDomainList;
     private final PhishTank phishTank;
     private final OpenPhish openPhish;
-    private final ZeuS zeus;
+    private final ZeuSDomainList zeus;
 
     private final String verificationToken;
 
     public SlackBoatResource(final DisposableMalwareDomainList disposableMalwareDomainList, final PhishTank phishTank, final OpenPhish openPhish,
-            final ZeuS zeus, final String verificationToken) {
+            final ZeuSDomainList zeus, final String verificationToken) {
         this.disposableMalwareDomainList = disposableMalwareDomainList;
         this.phishTank = phishTank;
         this.openPhish = openPhish;
