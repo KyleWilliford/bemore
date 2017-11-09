@@ -18,7 +18,7 @@ import net.kpw.slackboat.util.FileParser;
  */
 public class OpenPhishTestCase {
     private static final FileParser fileParser = FileParser.getInstance();
-    final Set<String> urls = fileParser.parseLines(getClass().getResourceAsStream("/phishtank.csv"));
+    final Set<String> urls = fileParser.parseLines(getClass().getResourceAsStream("/openphish.txt"));
     private final OpenPhish openPhish = new OpenPhish(urls);
 
     @Test

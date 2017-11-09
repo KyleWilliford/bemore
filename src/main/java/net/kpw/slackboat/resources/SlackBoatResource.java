@@ -15,6 +15,7 @@ import net.kpw.slackboat.core.DisposableMalwareDomainList;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
 import net.kpw.slackboat.core.ZeuSDomainList;
+import net.kpw.slackboat.core.constant.Constants;
 
 /**
  * @author kwilliford
@@ -25,7 +26,6 @@ import net.kpw.slackboat.core.ZeuSDomainList;
 public class SlackBoatResource {
     private static final Log LOG = LogFactory.getLog(SlackBoatResource.class);
 
-    private static final String VERIFICATION_TOKEN_INVALID = "Verification token invalid.";
     private final DisposableMalwareDomainList disposableMalwareDomainList;
     private final PhishTank phishTank;
     private final OpenPhish openPhish;
@@ -33,8 +33,8 @@ public class SlackBoatResource {
 
     private final String verificationToken;
 
-    public SlackBoatResource(final DisposableMalwareDomainList disposableMalwareDomainList, final PhishTank phishTank, final OpenPhish openPhish,
-            final ZeuSDomainList zeus, final String verificationToken) {
+    public SlackBoatResource(final DisposableMalwareDomainList disposableMalwareDomainList, final PhishTank phishTank,
+            final OpenPhish openPhish, final ZeuSDomainList zeus, final String verificationToken) {
         this.disposableMalwareDomainList = disposableMalwareDomainList;
         this.phishTank = phishTank;
         this.openPhish = openPhish;
@@ -49,14 +49,14 @@ public class SlackBoatResource {
     public Response finaAnyMatch(@FormParam("text") final String text, @FormParam("token") final String token) {
         LOG.debug(text);
         if (!verifyToken(token)) {
-            return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
+            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         final boolean matchDisposableEmailDomain = disposableMalwareDomainList.isDomainBlacklisted(text);
         final boolean matchPhishTank = phishTank.isURLBlacklisted(text);
         final boolean matchOpenPhish = openPhish.isURLBlacklisted(text);
         final boolean matchZeuSDomains = zeus.isDomainBlacklisted(text);
         final boolean matchZeuSIPv4 = zeus.isIPBlacklisted(text);
-        StringBuilder sb = new StringBuilder("That input matches:");
+        StringBuilder sb = new StringBuilder("The input was found in these databases:");
         if (matchDisposableEmailDomain) {
             sb.append("\nThe Disposable Email Blacklist (Spam domains)");
         } else if (matchPhishTank) {
@@ -71,43 +71,64 @@ public class SlackBoatResource {
             sb.append(" no databases.");
         }
         final String responseText = sb.toString();
-        LOG.debug(responseText);
+        LOG.info(responseText);
         return Response.ok().entity(responseText).build();
     }
 
     @POST
-    @Path("/is_blacklisted")
+    @Path("/is_domain_blacklisted")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response isDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token) {
         LOG.debug(text);
         if (!verifyToken(token)) {
-            return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
+            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         String responseText;
         if (disposableMalwareDomainList.isDomainBlacklisted(text)) {
-            responseText = "Found it! Don't trust that domain! It's bad, m'kay.";
+            responseText = Constants.DISPOSABLE_DOMAIN_BLACKLISTED_TRUE;
         } else {
-            responseText = "I couldn't find that domain in the blacklist of domains.";
+            responseText = Constants.DISPOSABLE_DOMAIN_BLACKLISTED_FALSE;
         }
+        LOG.info(responseText);
         return Response.ok().entity(responseText).build();
     }
 
     @POST
-    @Path("/is_phishy")
+    @Path("/is_in_phishtank")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response isURLPhishy(@FormParam("text") String text, @FormParam("token") final String token) {
+    public Response isURLPhishTankDetected(@FormParam("text") String text, @FormParam("token") final String token) {
         LOG.debug(text);
         if (!verifyToken(token)) {
-            return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
+            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         String responseText;
-        if (phishTank.isURLBlacklisted(text) || openPhish.isURLBlacklisted(text)) {
-            responseText = "Found it! Don't trust that url! It's bad, m'kay.";
+        if (phishTank.isURLBlacklisted(text)) {
+            responseText = Constants.PHISHTANK_URL_BLACKLISTED_TRUE;
         } else {
-            responseText = "I couldn't find that url in my database of known phishing urls.";
+            responseText = Constants.PHISHTANK_URL_BLACKLISTED_FALSE;
         }
+        LOG.info(responseText);
+        return Response.ok().entity(responseText).build();
+    }
+
+    @POST
+    @Path("/is_in_openphish")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response isURLOpenPhishDetected(@FormParam("text") String text, @FormParam("token") final String token) {
+        LOG.debug(text);
+        if (!verifyToken(token)) {
+            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+        }
+        String responseText;
+        if (openPhish.isURLBlacklisted(text)) {
+            responseText = Constants.OPENPHISH_URL_BLACKLISTED_TRUE;
+        } else {
+            responseText = Constants.OPENPHISH_URL_BLACKLISTED_FALSE;
+        }
+        LOG.info(responseText);
         return Response.ok().entity(responseText).build();
     }
 
@@ -118,14 +139,15 @@ public class SlackBoatResource {
     public Response isZeuSDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token) {
         LOG.debug(text);
         if (!verifyToken(token)) {
-            return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
+            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         String responseText;
         if (zeus.isDomainBlacklisted(text)) {
-            responseText = "Found it! Don't trust that domain! It's bad, m'kay.";
+            responseText = Constants.ZEUS_DOMAIN_BLACKLISTED_TRUE;
         } else {
-            responseText = "I couldn't find that domain in the blacklist of ZeuS domains.";
+            responseText = Constants.ZEUS_DOMAIN_BLACKLISTED_FALSE;
         }
+        LOG.info(responseText);
         return Response.ok().entity(responseText).build();
     }
 
@@ -136,26 +158,29 @@ public class SlackBoatResource {
     public Response isZeuSIPBlacklisted(@FormParam("text") String text, @FormParam("token") final String token) {
         LOG.debug(text);
         if (!verifyToken(token)) {
-            return Response.serverError().entity(VERIFICATION_TOKEN_INVALID).build();
+            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         String responseText;
         if (zeus.isIPBlacklisted(text)) {
-            responseText = "Found it! Don't trust that ip address! It's bad, m'kay.";
+            responseText = Constants.ZEUS_IP_BLACKLISTED_TRUE;
         } else {
-            responseText = "I couldn't find that ip address in the blacklist of ZeuS domains.";
+            responseText = Constants.ZEUS_IP_BLACKLISTED_FALSE;
         }
+        LOG.info(responseText);
         return Response.ok().entity(responseText).build();
     }
 
     /**
      * Verify that the request is coming from Slack.
-     * @param token The verification token from Slack.
+     * 
+     * @param token
+     *            The verification token from Slack.
      * @return True if the token is verified, otherwise false.
      */
     private boolean verifyToken(final String token) {
         LOG.debug(token);
         if (!this.verificationToken.equals(token)) {
-            LOG.error(VERIFICATION_TOKEN_INVALID);
+            LOG.error(Constants.VERIFICATION_TOKEN_INVALID);
             return false;
         }
         return true;

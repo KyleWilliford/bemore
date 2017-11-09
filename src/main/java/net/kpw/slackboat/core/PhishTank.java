@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
  * @created Nov 7, 2017
  *
  */
-public final class PhishTank extends BlackList {
+public final class PhishTank extends Blacklist {
     @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(PhishTank.class);
     private Set<String> urls = new TreeSet<>();

@@ -9,8 +9,8 @@ package net.kpw.slackboat.core;
  * @created Nov 7, 2017
  *
  */
-abstract class BlackList {
-    protected IBlackList domainBlackListImpl = new DomainBlackListImpl();
-    protected IBlackList ipv4BlackListImpl = new DomainBlackListImpl();
-    protected IBlackList urlBlackListImpl = new UrlBlackListImpl();
+abstract class Blacklist {
+    protected IBlacklist domainBlackListImpl = new DomainBlacklistImpl();
+    protected IBlacklist ipv4BlackListImpl = new DomainBlacklistImpl();
+    protected IBlacklist urlBlackListImpl = new UrlBlacklistImpl();
 }

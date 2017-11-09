@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
  * @created Nov 7, 2017
  *
  */
-class IPv4BlackListImpl implements IBlackList {
+class IPv4BlackListImpl implements IBlacklist {
     private static final Log LOG = LogFactory.getLog(IPv4BlackListImpl.class);
 
     @Override

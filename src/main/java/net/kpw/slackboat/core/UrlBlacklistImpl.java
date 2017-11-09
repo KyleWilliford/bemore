@@ -14,8 +14,8 @@ import org.apache.commons.logging.LogFactory;
  * @created Nov 7, 2017
  *
  */
-class UrlBlackListImpl implements IBlackList {
-    private static final Log LOG = LogFactory.getLog(UrlBlackListImpl.class);
+class UrlBlacklistImpl implements IBlacklist {
+    private static final Log LOG = LogFactory.getLog(UrlBlacklistImpl.class);
 
     @Override
     public boolean isBlacklisted(final String input, final Collection<String> strings) {

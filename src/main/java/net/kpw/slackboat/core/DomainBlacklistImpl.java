@@ -14,8 +14,8 @@ import org.apache.commons.logging.LogFactory;
  * @created Nov 7, 2017
  *
  */
-class DomainBlackListImpl implements IBlackList {
-    private static final Log LOG = LogFactory.getLog(DomainBlackListImpl.class);
+class DomainBlacklistImpl implements IBlacklist {
+    private static final Log LOG = LogFactory.getLog(DomainBlacklistImpl.class);
 
     @Override
     public boolean isBlacklisted(final String input, final Collection<String> strings) {

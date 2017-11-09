@@ -9,7 +9,7 @@ import java.util.Collection;
  * @created Nov 7, 2017
  *
  */
-interface IBlackList {
+interface IBlacklist {
     /**
      * Return true if the given string input is contained in the provided Collection of strings.
      * 

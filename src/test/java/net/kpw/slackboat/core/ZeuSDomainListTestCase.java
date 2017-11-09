@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import net.kpw.slackboat.core.ZeuSDomainList;
 import net.kpw.slackboat.util.FileParser;
 
 /**
@@ -20,42 +19,41 @@ import net.kpw.slackboat.util.FileParser;
  */
 public class ZeuSDomainListTestCase {
     private static final FileParser fileParser = FileParser.getInstance();
-    private final ZeuSDomainList zeus = new ZeuSDomainList(fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")),
-            fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
     final Set<String> domains = fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt"));
     final Set<String> ipv4Addresses = fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt"));
+    private final ZeuSDomainList zeusDomainList = new ZeuSDomainList(domains, ipv4Addresses);
 
     @Test
     public void domainsSize() {
-        assertEquals(zeus.getDomains(), domains);
-        assertNotEquals(zeus.getIpv4Addresses(), domains);
+        assertEquals(zeusDomainList.getDomains(), domains);
+        assertNotEquals(zeusDomainList.getIpv4Addresses(), domains);
     }
 
     @Test
     public void ipAddressesSize() {
-        assertEquals(zeus.getIpv4Addresses(), ipv4Addresses);
-        assertNotEquals(zeus.getDomains(), ipv4Addresses);
+        assertEquals(zeusDomainList.getIpv4Addresses(), ipv4Addresses);
+        assertNotEquals(zeusDomainList.getDomains(), ipv4Addresses);
     }
 
     @Test
     public void isDomainBlacklisted() {
-        assertTrue(zeus.isDomainBlacklisted(domains.iterator().next()));
+        assertTrue(zeusDomainList.isDomainBlacklisted(domains.iterator().next()));
     }
 
     @Test
     public void isIPBlacklisted() {
-        assertTrue(zeus.isIPBlacklisted(ipv4Addresses.iterator().next()));
+        assertTrue(zeusDomainList.isIPBlacklisted(ipv4Addresses.iterator().next()));
     }
 
     @Test
     public void setDomains() {
-        zeus.setDomains(domains);
-        assertEquals(zeus.getDomains(), domains);
+        zeusDomainList.setDomains(domains);
+        assertEquals(zeusDomainList.getDomains(), domains);
     }
 
     @Test
     public void setIpv4Addresses() {
-        zeus.setIpv4Addresses(ipv4Addresses);
-        assertEquals(zeus.getIpv4Addresses(), ipv4Addresses);
+        zeusDomainList.setIpv4Addresses(ipv4Addresses);
+        assertEquals(zeusDomainList.getIpv4Addresses(), ipv4Addresses);
     }
 }
