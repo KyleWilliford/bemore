@@ -76,7 +76,7 @@ public class SlackBoatResource {
     }
 
     @POST
-    @Path("/is_domain_blacklisted")
+    @Path("/is_spam_domain")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response isDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token) {
