@@ -24,6 +24,8 @@ import net.kpw.slackboat.core.constant.Constants;
  *
  */
 @Path("/api")
+@Produces(MediaType.TEXT_PLAIN)
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 public class SlackBoatResource {
     private static final Log LOG = LogFactory.getLog(SlackBoatResource.class);
 
@@ -45,17 +47,18 @@ public class SlackBoatResource {
 
     @POST
     @Path("/find_any_match")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response finaAnyMatch(@FormParam("text") final String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
-        LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
         }
+        if (StringUtils.isBlank(text)) {
+            return Response.ok().entity("The input was not found in any database.").build();
+        }
+        LOG.debug(text);
         final boolean matchDisposableEmailDomain = disposableMalwareDomainList.isDomainBlacklisted(text);
         final boolean matchPhishTank = phishTank.isURLBlacklisted(text);
         final boolean matchOpenPhish = openPhish.isURLBlacklisted(text);
@@ -82,17 +85,18 @@ public class SlackBoatResource {
 
     @POST
     @Path("/is_spam_domain")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response isDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
-        LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
         }
+        if (StringUtils.isBlank(text)) {
+            return Response.ok().entity(Constants.DISPOSABLE_DOMAIN_BLACKLISTED_FALSE).build();
+        }
+        LOG.debug(text);
         String responseText;
         if (disposableMalwareDomainList.isDomainBlacklisted(text)) {
             responseText = Constants.DISPOSABLE_DOMAIN_BLACKLISTED_TRUE;
@@ -105,17 +109,18 @@ public class SlackBoatResource {
 
     @POST
     @Path("/is_in_openphish")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response isURLOpenPhishDetected(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
-        LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
         }
+        if (StringUtils.isBlank(text)) {
+            return Response.ok().entity(Constants.OPENPHISH_URL_BLACKLISTED_FALSE).build();
+        }
+        LOG.debug(text);
         String responseText;
         if (openPhish.isURLBlacklisted(text)) {
             responseText = Constants.OPENPHISH_URL_BLACKLISTED_TRUE;
@@ -128,17 +133,18 @@ public class SlackBoatResource {
 
     @POST
     @Path("/is_in_phishtank")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response isURLPhishTankDetected(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
-        LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
         }
+        if (StringUtils.isBlank(text)) {
+            return Response.ok().entity(Constants.PHISHTANK_URL_BLACKLISTED_FALSE).build();
+        }
+        LOG.debug(text);
         String responseText;
         if (phishTank.isURLBlacklisted(text)) {
             responseText = Constants.PHISHTANK_URL_BLACKLISTED_TRUE;
@@ -151,17 +157,18 @@ public class SlackBoatResource {
 
     @POST
     @Path("/is_zeus_domain")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response isZeuSDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
-        LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
         }
+        if (StringUtils.isBlank(text)) {
+            return Response.ok().entity(Constants.ZEUS_DOMAIN_BLACKLISTED_FALSE).build();
+        }
+        LOG.debug(text);
         String responseText;
         if (zeus.isDomainBlacklisted(text)) {
             responseText = Constants.ZEUS_DOMAIN_BLACKLISTED_TRUE;
@@ -174,17 +181,18 @@ public class SlackBoatResource {
 
     @POST
     @Path("/is_zeus_ipv4")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response isZeuSIPBlacklisted(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
-        LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
         }
+        if (StringUtils.isBlank(text)) {
+            return Response.ok().entity(Constants.ZEUS_IP_BLACKLISTED_FALSE).build();
+        }
+        LOG.debug(text);
         String responseText;
         if (zeus.isIPBlacklisted(text)) {
             responseText = Constants.ZEUS_IP_BLACKLISTED_TRUE;
