@@ -1,9 +1,11 @@
 package net.kpw.slackboat.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
@@ -31,7 +33,15 @@ public class FileParserTestCase {
     @Test
     public void parseURLsSecondColumn() {
         final String TEST_FILE_RESOURCE_PATH = "/phishtank.csv";
-        Set<String> lines = fileParser.parseURLsSecondColumn(getClass().getResourceAsStream(TEST_FILE_RESOURCE_PATH));
-        assertEquals(lines.size(), 22373);
+        Set<String> urls = fileParser.parseURLsSecondColumn(getClass().getResourceAsStream(TEST_FILE_RESOURCE_PATH));
+        assertEquals(urls.size(), 22275);
+        for (String url : urls) {
+            if (StringUtils.isBlank(url)) {
+                fail("There should be no blank or null urls.");
+            }
+            if (url.contains(",")) {
+                fail("There should be no commas - this indicaes that the csv was not parsed correctly.");
+            }
+        }
     }
 }

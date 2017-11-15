@@ -78,6 +78,7 @@ public class FileParser {
     public Set<String> parseURLsSecondColumn(InputStream inputStream) {
         final Set<String> lines = this.parseLines(inputStream);
         // return a set of the values from the second column
+        Set<String> urls = new TreeSet<>();
         String[] split;
         for (String line : lines) {
             split = line.split(",");
@@ -86,10 +87,12 @@ public class FileParser {
                 if ("url".equalsIgnoreCase(url) || StringUtils.isBlank(url)) {
                     LOG.debug("filtering out " + url);
                     lines.remove(line);
+                } else {
+                    urls.add(url);
                 }
             }
         }
-        LOG.debug("lines " + lines.size());
-        return lines;
+        LOG.debug("Parsed " + urls.size() + " urls.");
+        return urls;
     }
 }
