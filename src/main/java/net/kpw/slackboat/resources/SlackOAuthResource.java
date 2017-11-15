@@ -5,7 +5,9 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -51,6 +53,7 @@ public class SlackOAuthResource {
      * @return A {@link Response}.
      */
     @GET
+    @Produces(MediaType.TEXT_PLAIN)
     public Response authorize(@Context HttpServletRequest request) {
         final String error = request.getParameter("error");
         if (StringUtils.isNotBlank(error) && "access_denied".equals(error)) {

@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -50,7 +51,7 @@ public class SlackBoatResource {
     public Response finaAnyMatch(@FormParam("text") final String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
         if (!verifyToken(token)) {
-            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+            return Response.status(Status.UNAUTHORIZED).entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
@@ -88,7 +89,7 @@ public class SlackBoatResource {
     public Response isDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
         if (!verifyToken(token)) {
-            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+            return Response.status(Status.UNAUTHORIZED).entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
@@ -112,7 +113,7 @@ public class SlackBoatResource {
     public Response isURLOpenPhishDetected(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
         if (!verifyToken(token)) {
-            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+            return Response.status(Status.UNAUTHORIZED).entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
@@ -136,7 +137,7 @@ public class SlackBoatResource {
     public Response isURLPhishTankDetected(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
         if (!verifyToken(token)) {
-            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+            return Response.status(Status.UNAUTHORIZED).entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
@@ -160,7 +161,7 @@ public class SlackBoatResource {
     public Response isZeuSDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
         if (!verifyToken(token)) {
-            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+            return Response.status(Status.UNAUTHORIZED).entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
@@ -184,7 +185,7 @@ public class SlackBoatResource {
     public Response isZeuSIPBlacklisted(@FormParam("text") String text, @FormParam("token") final String token,
             @FormParam("ssl_check") final String sslCheck) {
         if (!verifyToken(token)) {
-            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+            return Response.status(Status.UNAUTHORIZED).entity(Constants.VERIFICATION_TOKEN_INVALID).build();
         }
         if (StringUtils.isNotBlank(sslCheck)) {
             return Response.ok().build();
