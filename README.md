@@ -115,9 +115,10 @@ Slash Command URL:
 ## Server REST API
 
 ### Slash Command API
-The path names are designed to match the slash commands, for readability.
 
-All paths consume `application/x-www-form-urlencoded` media type and product `text/plain` media type.
+The `/api` REST paths are used to answer commands from the slack app. The path names are designed to match the slash commands, for readability.
+
+All paths consume `application/x-www-form-urlencoded` media type and produce `text/plain` media type.
 
 All paths check and use the `text`, `token`, and `ssl_check` form parameters that Slack _may_ send with any request.
 
@@ -134,6 +135,12 @@ HTTP POST `/is_zeus_ipv4` Checks a given ipv4 address against a list of known Ze
 https://zeustracker.abuse.ch/blocklist.php?download=badips
 
 HTTP POST `/find_any_match` Checks a given text input against all of the above databases.
+
+### OAuth API
+
+The `/auth` REST paths are used to handle OAuth requests.
+
+HTTP GET produces `text/plain` media type content. `/auth` Authorizes a request to install the slackboat app into the requestor's workspace.
 
 # Future Improvements and TODOs
 
