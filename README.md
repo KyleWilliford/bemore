@@ -43,7 +43,7 @@ https://zeustracker.abuse.ch/blocklist.php?download=badips
 
 `/find_any_match [text]` Checks a given text input against all of the above databases.
 
-![Alt text](/images/find_any_result.png?raw=true "find any result")
+![Alt text](/images/find_any_match.png?raw=true "find any match")
 
 An exact match (case insensitive) is required to find a result from one of these databases. How useful is that? Ney very, I know. This could be enhanced later.
 
@@ -69,24 +69,6 @@ This will make it possible for your Slack client to send requests from your clie
 
 - ngrok 2.x (development, localhost)
 
-## Install ngrok:
-
-Go here https://ngrok.com/ and download the package for your operating system.
-
-unzip the archive (command instructions are on the same page as the downloads)
-
-For this project, you will expose localhost to the internet on port 8080 with a randomized domain name.
-
-run  `$ ./ngrok http 8080`
-
-You should see something similar to this:
-
-![Alt text](/images/ngrok-http-8080.png?raw=true "ngrok http 8080")
-
-More documentation on ngrok: https://ngrok.com/docs/2
-
-You will need to configure the slack app to send requests to the tunneled domain. Look at the ngrok output to get the public domain.
-
 ## How do I start the server?
 
 1. Install dependencies (listed above)
@@ -105,6 +87,20 @@ Create a Slack app here: https://api.slack.com/slack-apps
 Then, set up the app however you want. Add Slash commands that point to the REST endpoints listed below.
 
 You will need to update the Slack tokens stored in the yaml configuration of this server, if you decide to connect it to your own app.
+
+## Installing and using ngrok
+
+Go here https://ngrok.com/ and download the package for your operating system.
+
+unzip the archive (command instructions are on the same page as the downloads)
+
+For this project, you will tunnel HTTP/S internet requests on port 8080 with a randomized domain name.
+
+run  `$ ./ngrok http 8080` to set up the tunnel
+
+More documentation on ngrok: https://ngrok.com/docs/2
+
+You will need to configure the slack app to send requests to the tunneled domain, if you are using your own Slack app. Look at the ngrok output to get the domain for this. The ngrok website has examples.
 
 ### URLs
 
