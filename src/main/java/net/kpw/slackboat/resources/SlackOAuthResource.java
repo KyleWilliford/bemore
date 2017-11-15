@@ -26,6 +26,7 @@ import net.kpw.slackboat.SlackClientAppConfiguration;
 
 /**
  * Slack authorization resource.
+ * 
  * @author kwilliford
  * @created Nov 2, 2017
  *
@@ -36,7 +37,7 @@ public class SlackOAuthResource {
 
     private final SlackClientAppConfiguration slackClientAppConfiguration;
     private final HttpClient httpClient;
-    
+
     public SlackOAuthResource(final SlackClientAppConfiguration slackClientAppConfiguration, final HttpClient httpClient) {
         this.slackClientAppConfiguration = slackClientAppConfiguration;
         this.httpClient = httpClient;
@@ -44,7 +45,9 @@ public class SlackOAuthResource {
 
     /**
      * OAuth authorization method.
-     * @param request The Http request.
+     * 
+     * @param request
+     *            The Http request.
      * @return A {@link Response}.
      */
     @GET
@@ -60,8 +63,8 @@ public class SlackOAuthResource {
             return Response.status(Status.BAD_REQUEST).build();
         }
         StringBuilder sb = new StringBuilder("https://slack.com/api/oauth.access?code=").append(code);
-        sb.append("&client_id=").append(slackClientAppConfiguration.getClientID())
-            .append("&client_secret=").append(slackClientAppConfiguration.getClientSecret());
+        sb.append("&client_id=").append(slackClientAppConfiguration.getClientID()).append("&client_secret=")
+                .append(slackClientAppConfiguration.getClientSecret());
         final String uri = sb.toString();
         LOG.debug(uri);
         if (StringUtils.isBlank(uri)) {
@@ -82,12 +85,14 @@ public class SlackOAuthResource {
             JsonNode jsonNode = mapper.readTree(accessResponse);
             Boolean ok = jsonNode.get("ok").asBoolean();
             if (ok) {
-                return Response.ok().entity("Successfully installed slackboat to your workspace! Go try it out in your Slack client!").build();
+                return Response.ok().entity("Successfully installed slackboat to your workspace! Go try it out in your Slack client!")
+                        .build();
             }
         } catch (Exception e) {
             LOG.error(e);
         }
         LOG.warn("Could not install slackboat to user's workspace.");
-        return Response.status(Status.UNAUTHORIZED).entity("Sorry, something went wrong! Slackboat could not be installed to your workspace.").build();
+        return Response.status(Status.UNAUTHORIZED)
+                .entity("Sorry, something went wrong! Slackboat could not be installed to your workspace.").build();
     }
 }

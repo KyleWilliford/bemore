@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -46,10 +47,14 @@ public class SlackBoatResource {
     @Path("/find_any_match")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response finaAnyMatch(@FormParam("text") final String text, @FormParam("token") final String token) {
+    public Response finaAnyMatch(@FormParam("text") final String text, @FormParam("token") final String token,
+            @FormParam("ssl_check") final String sslCheck) {
         LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+        }
+        if (StringUtils.isNotBlank(sslCheck)) {
+            return Response.ok().build();
         }
         final boolean matchDisposableEmailDomain = disposableMalwareDomainList.isDomainBlacklisted(text);
         final boolean matchPhishTank = phishTank.isURLBlacklisted(text);
@@ -79,10 +84,14 @@ public class SlackBoatResource {
     @Path("/is_spam_domain")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response isDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token) {
+    public Response isDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token,
+            @FormParam("ssl_check") final String sslCheck) {
         LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+        }
+        if (StringUtils.isNotBlank(sslCheck)) {
+            return Response.ok().build();
         }
         String responseText;
         if (disposableMalwareDomainList.isDomainBlacklisted(text)) {
@@ -95,32 +104,17 @@ public class SlackBoatResource {
     }
 
     @POST
-    @Path("/is_in_phishtank")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response isURLPhishTankDetected(@FormParam("text") String text, @FormParam("token") final String token) {
-        LOG.debug(text);
-        if (!verifyToken(token)) {
-            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
-        }
-        String responseText;
-        if (phishTank.isURLBlacklisted(text)) {
-            responseText = Constants.PHISHTANK_URL_BLACKLISTED_TRUE;
-        } else {
-            responseText = Constants.PHISHTANK_URL_BLACKLISTED_FALSE;
-        }
-        LOG.info(responseText);
-        return Response.ok().entity(responseText).build();
-    }
-
-    @POST
     @Path("/is_in_openphish")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response isURLOpenPhishDetected(@FormParam("text") String text, @FormParam("token") final String token) {
+    public Response isURLOpenPhishDetected(@FormParam("text") String text, @FormParam("token") final String token,
+            @FormParam("ssl_check") final String sslCheck) {
         LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+        }
+        if (StringUtils.isNotBlank(sslCheck)) {
+            return Response.ok().build();
         }
         String responseText;
         if (openPhish.isURLBlacklisted(text)) {
@@ -133,13 +127,40 @@ public class SlackBoatResource {
     }
 
     @POST
-    @Path("/is_zeus_domain")
+    @Path("/is_in_phishtank")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response isZeuSDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token) {
+    public Response isURLPhishTankDetected(@FormParam("text") String text, @FormParam("token") final String token,
+            @FormParam("ssl_check") final String sslCheck) {
         LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+        }
+        if (StringUtils.isNotBlank(sslCheck)) {
+            return Response.ok().build();
+        }
+        String responseText;
+        if (phishTank.isURLBlacklisted(text)) {
+            responseText = Constants.PHISHTANK_URL_BLACKLISTED_TRUE;
+        } else {
+            responseText = Constants.PHISHTANK_URL_BLACKLISTED_FALSE;
+        }
+        LOG.info(responseText);
+        return Response.ok().entity(responseText).build();
+    }
+
+    @POST
+    @Path("/is_zeus_domain")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response isZeuSDomainBlacklisted(@FormParam("text") String text, @FormParam("token") final String token,
+            @FormParam("ssl_check") final String sslCheck) {
+        LOG.debug(text);
+        if (!verifyToken(token)) {
+            return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+        }
+        if (StringUtils.isNotBlank(sslCheck)) {
+            return Response.ok().build();
         }
         String responseText;
         if (zeus.isDomainBlacklisted(text)) {
@@ -155,10 +176,14 @@ public class SlackBoatResource {
     @Path("/is_zeus_ipv4")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response isZeuSIPBlacklisted(@FormParam("text") String text, @FormParam("token") final String token) {
+    public Response isZeuSIPBlacklisted(@FormParam("text") String text, @FormParam("token") final String token,
+            @FormParam("ssl_check") final String sslCheck) {
         LOG.debug(text);
         if (!verifyToken(token)) {
             return Response.serverError().entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+        }
+        if (StringUtils.isNotBlank(sslCheck)) {
+            return Response.ok().build();
         }
         String responseText;
         if (zeus.isIPBlacklisted(text)) {

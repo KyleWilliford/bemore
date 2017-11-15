@@ -22,11 +22,6 @@ public class OpenPhishTest {
     private final OpenPhish openPhish = new OpenPhish(urls);
 
     @Test
-    public void urlsSize() {
-        assertEquals(openPhish.getUrls(), urls);
-    }
-
-    @Test
     public void isURLBlacklisted() {
         assertTrue(openPhish.isURLBlacklisted(urls.iterator().next()));
     }
@@ -34,6 +29,11 @@ public class OpenPhishTest {
     @Test
     public void setUrls() {
         openPhish.setUrls(urls);
+        assertEquals(openPhish.getUrls(), urls);
+    }
+
+    @Test
+    public void urlsSize() {
         assertEquals(openPhish.getUrls(), urls);
     }
 }

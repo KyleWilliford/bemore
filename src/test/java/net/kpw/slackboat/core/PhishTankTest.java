@@ -22,11 +22,6 @@ public class PhishTankTest {
     private final PhishTank phishTank = new PhishTank(urls);
 
     @Test
-    public void urlsSize() {
-        assertEquals(phishTank.getUrls(), urls);
-    }
-
-    @Test
     public void isURLBlacklisted() {
         assertTrue(phishTank.isURLBlacklisted(urls.iterator().next()));
     }
@@ -34,6 +29,11 @@ public class PhishTankTest {
     @Test
     public void setUrls() {
         phishTank.setUrls(urls);
+        assertEquals(phishTank.getUrls(), urls);
+    }
+
+    @Test
+    public void urlsSize() {
         assertEquals(phishTank.getUrls(), urls);
     }
 }

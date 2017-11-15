@@ -21,14 +21,16 @@ import org.apache.commons.logging.LogFactory;
  *
  */
 public class FileParser {
-    static final Log LOG = LogFactory.getLog(FileParser.class);
-
-    private FileParser() {}
-
     private static class LazyHolder {
         static final FileParser INSTANCE = new FileParser();
 
-        private LazyHolder() {}
+        private LazyHolder() {
+        }
+    }
+
+    static final Log LOG = LogFactory.getLog(FileParser.class);
+
+    private FileParser() {
     }
 
     /**
