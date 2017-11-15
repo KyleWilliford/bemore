@@ -59,7 +59,7 @@ public class SlackBoatResourceTest {
         input.param("token", VERIFICATION_TOKEN);
         Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
         String responseText = IOUtils.toString(
-                (ByteArrayInputStream) resources.target("/api/is_domain_blacklisted").request().post(entity).getEntity(),
+                (ByteArrayInputStream) resources.target("/api/is_spam_domain").request().post(entity).getEntity(),
                 StandardCharsets.UTF_8);
         assertEquals(Constants.DISPOSABLE_DOMAIN_BLACKLISTED_FALSE, responseText);
     }
@@ -77,7 +77,7 @@ public class SlackBoatResourceTest {
         input.param("token", VERIFICATION_TOKEN);
         Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
         String responseText = IOUtils.toString(
-                (ByteArrayInputStream) resources.target("/api/is_domain_blacklisted").request().post(entity).getEntity(),
+                (ByteArrayInputStream) resources.target("/api/is_spam_domain").request().post(entity).getEntity(),
                 StandardCharsets.UTF_8);
         assertEquals(Constants.DISPOSABLE_DOMAIN_BLACKLISTED_TRUE, responseText);
     }

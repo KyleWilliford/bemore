@@ -18,21 +18,21 @@ import net.kpw.slackboat.util.FileParser;
  */
 public class PhishTankTestCase {
     private static final FileParser fileParser = FileParser.getInstance();
-    final Set<String> urls = fileParser.parseLines(getClass().getResourceAsStream("/phishtank.csv"));
+    final Set<String> urls = fileParser.parseURLsSecondColumn(getClass().getResourceAsStream("/phishtank.csv"));
     private final PhishTank phishTank = new PhishTank(urls);
 
     @Test
-    public void domainsSize() {
+    public void urlsSize() {
         assertEquals(phishTank.getUrls(), urls);
     }
 
     @Test
-    public void isDomainBlacklisted() {
+    public void isURLBlacklisted() {
         assertTrue(phishTank.isURLBlacklisted(urls.iterator().next()));
     }
 
     @Test
-    public void setDomains() {
+    public void setUrls() {
         phishTank.setUrls(urls);
         assertEquals(phishTank.getUrls(), urls);
     }

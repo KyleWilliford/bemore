@@ -40,5 +40,5 @@ httpClient:
   
 slack:
   clientID: '261022332754.262110268791'
-  clientSecret: 'a23d94391017b58ff8a04eaaab29f02f'
-  verificationToken: 'oxQEQTZ1Ql11KhfVNhQbbnlr'
+  clientSecret: '0675b04c5154198e0ad96ae956f4ba5a'
+  verificationToken: 'sFhi0ebc9V2KxoXhZj4MJO4J'

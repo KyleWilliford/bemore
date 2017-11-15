@@ -22,17 +22,17 @@ public class OpenPhishTestCase {
     private final OpenPhish openPhish = new OpenPhish(urls);
 
     @Test
-    public void domainsSize() {
+    public void urlsSize() {
         assertEquals(openPhish.getUrls(), urls);
     }
 
     @Test
-    public void isDomainBlacklisted() {
+    public void isURLBlacklisted() {
         assertTrue(openPhish.isURLBlacklisted(urls.iterator().next()));
     }
 
     @Test
-    public void setDomains() {
+    public void setUrls() {
         openPhish.setUrls(urls);
         assertEquals(openPhish.getUrls(), urls);
     }
