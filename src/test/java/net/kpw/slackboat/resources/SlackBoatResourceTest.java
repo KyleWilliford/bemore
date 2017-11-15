@@ -37,7 +37,7 @@ public class SlackBoatResourceTest {
     private static final PhishTank phishTank = new PhishTank(
             fileParser.parseURLsSecondColumn(SlackBoatResourceTest.class.getResourceAsStream("/phishtank.csv")));
     private static final OpenPhish openPhish = new OpenPhish(
-            fileParser.parseURLsSecondColumn(SlackBoatResourceTest.class.getResourceAsStream("/phishtank.csv")));
+            fileParser.parseLines(SlackBoatResourceTest.class.getResourceAsStream("/openphish.txt")));
     private static final ZeuSDomainList zeusDomainList = new ZeuSDomainList(
             fileParser.parseLines(SlackBoatResourceTest.class.getResourceAsStream("/ZeuS_bad_domains.txt")),
             fileParser.parseLines(SlackBoatResourceTest.class.getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
@@ -47,6 +47,60 @@ public class SlackBoatResourceTest {
     public static final ResourceTestRule resources = ResourceTestRule.builder()
             .addResource(new SlackBoatResource(disposableMalwareDomainList, phishTank, openPhish, zeusDomainList, VERIFICATION_TOKEN))
             .build();
+
+    /**
+     * Test querying the api to check if a domain is in the disposable spam email blacklist [success result].
+     * 
+     * @throws IOException
+     *             if the response byte stream could not be read.
+     */
+    @Test
+    public void testFindAnyMatch() throws IOException {
+        // disposable spam emails
+        Form input = new Form();
+        input.param("token", VERIFICATION_TOKEN);
+        input.param("text", disposableMalwareDomainList.getDomains().iterator().next());
+        Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
+        String responseText = IOUtils.toString(
+                (ByteArrayInputStream) resources.target("/api/find_any_match").request().post(entity).getEntity(), StandardCharsets.UTF_8);
+        assertEquals("The input was found in these databases:\nThe Disposable Email Blacklist (Spam domains)", responseText);
+
+        // phishtank
+        input = new Form();
+        input.param("token", VERIFICATION_TOKEN);
+        input.param("text", phishTank.getUrls().iterator().next());
+        entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
+        responseText = IOUtils.toString(
+                (ByteArrayInputStream) resources.target("/api/find_any_match").request().post(entity).getEntity(), StandardCharsets.UTF_8);
+        assertEquals("The input was found in these databases:\nThe PhishTank phishing url list.", responseText);
+        
+        // openphish
+        input = new Form();
+        input.param("token", VERIFICATION_TOKEN);
+        input.param("text", openPhish.getUrls().iterator().next());
+        entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
+        responseText = IOUtils.toString(
+                (ByteArrayInputStream) resources.target("/api/find_any_match").request().post(entity).getEntity(), StandardCharsets.UTF_8);
+        assertEquals("The input was found in these databases:\nThe OpenPhish phishing url list.", responseText);
+        
+        // ZeuS domain
+        input = new Form();
+        input.param("token", VERIFICATION_TOKEN);
+        input.param("text", zeusDomainList.getDomains().iterator().next());
+        entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
+        responseText = IOUtils.toString(
+                (ByteArrayInputStream) resources.target("/api/find_any_match").request().post(entity).getEntity(), StandardCharsets.UTF_8);
+        assertEquals("The input was found in these databases:\nThe ZeuS trojan domain blacklist.", responseText);
+        
+        // ZeuS ipv4
+        input = new Form();
+        input.param("token", VERIFICATION_TOKEN);
+        input.param("text", zeusDomainList.getIpv4Addresses().iterator().next());
+        entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
+        responseText = IOUtils.toString(
+                (ByteArrayInputStream) resources.target("/api/find_any_match").request().post(entity).getEntity(), StandardCharsets.UTF_8);
+        assertEquals("The input was found in these databases:\nThe ZeuS trojan ipv4 blacklist.", responseText);
+    }
 
     /**
      * Test querying the api to check if a url is in the openphish blacklist [success result].
