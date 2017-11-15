@@ -2,7 +2,7 @@
 
 ## Wait, what is this?
 
-This is the server for the Slackboat Slack app. What's that? Never heard of it? Makes sense. Slackboat is a Slack chat bot that I created and it is not publicly distributed. Here is the client app: https://kpw-slack-dev.slack.com/apps/A7Q387WP9-slackboat
+This is the server for the Slackboat Slack app. What's that? Never heard of it? Makes sense. Slackboat is a Slack chat bot that I created and it is not publicly distributed.
 
 The Slackboat _bot_ adds some slash commands to your workspace. Read the next few sections for more detail on what is added and how to use these commands.
 
@@ -26,10 +26,12 @@ Note: this request communicates with a live version of this Slackboat _server_, 
 
 Open up your slack client and try out the new commands!
 
-There are currently only 5 commands:
-`/is_blacklisted [email]` Checks a given email string against a list of known disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains
+These are the currently available commands:
+`/is_spam_domain [email, or domain]` Checks a given email/domain string against a list of known disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains. The domain is the only relevant piece - anything before the `@` is stripped out.
 
-`/is_phishy [url]` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/ and here https://openphish.com/phishing_feeds.html
+`/is_in_phishtank [url]` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/
+
+`/is_in_openphish [url]` Checks a given url against a list of known phishy urls, maintained here: https://openphish.com/phishing_feeds.html
 
 `is_zeus_domain [domain]` Checks a given domain against a list of known ZeuS trojan domains, maintained here: 
 https://zeustracker.abuse.ch/blocklist.php?download=baddomains
