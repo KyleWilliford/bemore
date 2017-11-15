@@ -17,7 +17,7 @@ import net.kpw.slackboat.util.FileParser;
  * @created Nov 7, 2017
  *
  */
-public class ZeuSDomainListTestCase {
+public class ZeuSDomainListTest {
     private static final FileParser fileParser = FileParser.getInstance();
     final Set<String> domains = fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt"));
     final Set<String> ipv4Addresses = fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt"));

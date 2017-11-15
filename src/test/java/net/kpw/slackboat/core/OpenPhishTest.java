@@ -16,7 +16,7 @@ import net.kpw.slackboat.util.FileParser;
  * @created Nov 8, 2017
  *
  */
-public class OpenPhishTestCase {
+public class OpenPhishTest {
     private static final FileParser fileParser = FileParser.getInstance();
     final Set<String> urls = fileParser.parseLines(getClass().getResourceAsStream("/openphish.txt"));
     private final OpenPhish openPhish = new OpenPhish(urls);

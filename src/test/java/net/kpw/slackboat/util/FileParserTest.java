@@ -17,9 +17,9 @@ import org.junit.Test;
  * @created Nov 7, 2017
  *
  */
-public class FileParserTestCase {
+public class FileParserTest {
     @SuppressWarnings("unused")
-    private static final Log LOG = LogFactory.getLog(FileParserTestCase.class);
+    private static final Log LOG = LogFactory.getLog(FileParserTest.class);
 
     private final FileParser fileParser = FileParser.getInstance();
 
