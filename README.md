@@ -2,7 +2,9 @@
 
 ## Wait, what is this?
 
-This is the server for the slackboat app for Slack. What's slackboat? Never heard of it? Makes sense. Slackboat is a Slack application that I created in order to learn how to build and distribute a Slack app.
+This is the server for the slackboat app for Slack (https://kpw-slack-dev.slack.com/apps/A7Q387WP9-slackboat). What's slackboat? Never heard of it? I made it.
+
+I created this in order to learn how to build and distribute a Slack app. Primarily what this app _does_ is that it allows you to check urls and domains against some public databases of known phishing, malware, spam, or trojan domain names, URLs, or ip (v4) addresses, depending on the available data in each database. The public databases imported into the server are listed below.
 
 The slackboat _app_ adds a handful of slash commands to your workspace. Read the next few sections for more detail on what is added and how to use these commands.
 
@@ -20,9 +22,9 @@ Click the following button to sail the slackboat into your workspace.
 
 <a href="https://slack.com/oauth/authorize?scope=commands&client_id=261022332754.262110268791"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
-Note: this request communicates with a live version of this slackboat _server_, deployed on an AWS EC2 instance.
+Note: this installation request communicates with a live version of this slackboat _server_, deployed on an AWS EC2 instance. If this server doesn't response, that means it is off, and probably won't be turned on again. You will have to run your own instance of the server and configure the Slack app to communicate with your server.
 
-## Now what?
+## I installed the app. Now what?
 
 Open up your slack client and try out the new commands!!!!1!11!
 
@@ -41,15 +43,15 @@ https://zeustracker.abuse.ch/blocklist.php?download=badips
 
 `/find_any_match [text]` Checks a given text input against all of the above databases.
 
+![Alt text](/images/find_any_result.png?raw=true "find any result")
+
 An exact match (case insensitive) is required to find a result from one of these databases. How useful is that? Ney very, I know. This could be enhanced later.
 
-![Alt text](/images/slash_commands_1.png?raw=true "slash command set 1")
-![Alt text](/images/slash_commands_2.png?raw=true "slash command set 2")
-
-![Alt text](/images/find_any_result.png?raw=true "find any result")
 
 
 # Development, running this server locally, tunneling, and deployment
+
+This section is for building and running this server locally. This will be necessary when I inevitably turn off the server.
 
 For ease of development locally, use ngrok: https://ngrok.com/
 ---
@@ -93,6 +95,16 @@ You will need to configure the slack app to send requests to the tunneled domain
 1. `$ mvn clean install` to build the application
 1. `$ java -jar target/slackboat-<version>.jar server config.yml` Start the application (check the current version in the pom.xml file in the project root directory)
 1. A helpful Linux/Mac alias to do this: `alias slackboat='cd <path to repo>; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'`
+
+## How do I configure the Slack app part of this project to change slash command urls?
+
+You may need to create your own slack app and point it to your instance of this server.
+
+Create a Slack app here: https://api.slack.com/slack-apps
+
+Then, set up the app however you want. Add Slash commands that point to the REST endpoints listed below.
+
+You will need to update the Slack tokens stored in the yaml configuration of this server, if you decide to connect it to your own app.
 
 ### URLs
 
