@@ -2,13 +2,13 @@
 
 ## Wait, what is this?
 
-This is the server for the slackboat app for Slack (https://kpw-slack-dev.slack.com/apps/A7Q387WP9-slackboat). What's slackboat? Never heard of it? I made it.
+This is the server for the slackboat app for Slack (https://kpw-slack-dev.slack.com/apps/A7Q387WP9-slackboat). What's slackboat? Never heard of it? It is a custom Slack application that adds a handful of slash commands to your Slack workspace.
 
-I created this in order to learn how to build and distribute a Slack app. Primarily what this app _does_ is that it allows you to check urls and domains against some public databases of known phishing, malware, spam, or trojan domain names, URLs, or ip (v4) addresses, depending on the available data in each database. The public databases imported into the server are listed below.
+I created this in order to learn how to build and distribute a Slack app. Primarily what this app _does_ is that it allows you to check urls and domains against some public databases of known phishing, malware, spam, or trojan domain names, URLs, or ip (v4) addresses, depending on the available data in each database. The public databases imported into the server are listed later in this document.
 
-The slackboat _app_ adds a handful of slash commands to your workspace. Read the next few sections for more detail on what is added and how to use these commands.
+The slackboat _app_ (https://kpw-slack-dev.slack.com/apps/A7Q387WP9-slackboat) adds a handful of slash commands to your workspace. Read the next few sections for more detail on what is added and how to use these commands.
 
-The slackboat _server_ processes commands from users who have installed the _app_ into their workspace. The _server_ also implements a method for authorizing installation of the app into your workspace via the handy button located on this page (see below).
+The slackboat _server_ (this repo's code) processes commands from users who have installed the _app_ into their workspace. The _server_ also implements a method for authorizing installation of the app into your workspace via the handy button located on this page (see below).
 
 This server's api paths and method types are listed near the end of this readme.
 
