@@ -28,14 +28,14 @@ Note: this installation request communicates with a live version of this slackbo
 
 Open up your slack client and try out the new commands!!!!1!11!
 
-These are the currently available commands:
+These are the new slash commands you can use in Slack:
 `/is_spam_domain [email, or domain]` Checks a given email/domain string against a list of known disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains. The domain is the only relevant piece - anything before the `@` is stripped out.
 
 `/is_in_phishtank [url]` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/
 
 `/is_in_openphish [url]` Checks a given url against a list of known phishy urls, maintained here: https://openphish.com/phishing_feeds.html
 
-`is_zeus_domain [domain]` Checks a given domain against a list of known ZeuS trojan domains, maintained here: 
+`/is_zeus_domain [domain]` Checks a given domain against a list of known ZeuS trojan domains, maintained here: 
 https://zeustracker.abuse.ch/blocklist.php?download=baddomains
 
 `/is_zeus_ipv4 [ipv4]` Checks a given ipv4 address against a list of known ZeuS trojan ip addresses, maintained here:
@@ -114,17 +114,26 @@ Slash Command URL:
 
 ## Server REST API
 
-`POST /api/is_blacklisted` Checks a given email against a list of known bad boy disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains
+### Slash Command API
+The path names are designed to match the slash commands, for readability.
 
-`POST /api/is_phishy` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/ and here https://openphish.com/phishing_feeds.html
+All paths consume `application/x-www-form-urlencoded` media type and product `text/plain` media type.
 
-`POST /api/is_zeus_domain` Checks a given domain against a list of known ZeuS trojan domains, maintained here: 
+All paths check and use the `text`, `token`, and `ssl_check` form parameters that Slack _may_ send with any request.
+
+HTTP POST `/is_spam_domain` Checks a given email/domain string against a list of known disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains. The domain is the only relevant piece - anything before the `@` is stripped out.
+
+HTTP POST `/is_in_phishtank` Checks a given url against a list of known phishy urls, maintained here: https://www.phishtank.com/
+
+HTTP POST `/is_in_openphish` Checks a given url against a list of known phishy urls, maintained here: https://openphish.com/phishing_feeds.html
+
+HTTP POST `is_zeus_domain` Checks a given domain against a list of known ZeuS trojan domains, maintained here: 
 https://zeustracker.abuse.ch/blocklist.php?download=baddomains
 
-`POST /api/is_zeus_ipv4` Checks a given ipv4 address against a list of known ZeuS trojan ip addresses, maintained here:
+HTTP POST `/is_zeus_ipv4` Checks a given ipv4 address against a list of known ZeuS trojan ip addresses, maintained here:
 https://zeustracker.abuse.ch/blocklist.php?download=badips
 
-`POST /api/find_any_match` Checks a given text input against all of the above databases.
+HTTP POST `/find_any_match` Checks a given text input against all of the above databases.
 
 # Future Improvements and TODOs
 
