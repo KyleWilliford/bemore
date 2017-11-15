@@ -1,30 +1,30 @@
-# Slackboat chat bot server
+# slackboat app for Slack
 
 ## Wait, what is this?
 
-This is the server for the Slackboat Slack app. What's that? Never heard of it? Makes sense. Slackboat is a Slack chat bot that I created and it is not publicly distributed.
+This is the server for the slackboat app for Slack. What's slackboat? Never heard of it? Makes sense. Slackboat is a Slack application that I created in order to learn how to build and distribute a Slack app.
 
-The Slackboat _bot_ adds some slash commands to your workspace. Read the next few sections for more detail on what is added and how to use these commands.
+The slackboat _app_ adds a handful of slash commands to your workspace. Read the next few sections for more detail on what is added and how to use these commands.
 
-The Slackboat _server_ processes commands from users who have installed the _bot_ into their workspace. The _server_ also implements a method for authorizing installation of the app into your workspace.
+The slackboat _server_ processes commands from users who have installed the _app_ into their workspace. The _server_ also implements a method for authorizing installation of the app into your workspace via the handy button located on this page (see below).
 
 This server's api paths and method types are listed near the end of this readme.
 
 ### Why did you name this "slackboat"
 
-'Cause it is sort of similar to slackbot, I guess? Also, ~phishing~ fishing is sometimes done ~by bots~ on boats. That is sort of related, right?
+The name mildly amused me.
 
-## Install _Slackboat App_ to Your Workspace (live version)
+## Install _slackboat App_ to Your Workspace (live version)
 
-Click the following button to sail the Slackboat into your workspace.
+Click the following button to sail the slackboat into your workspace.
 
 <a href="https://slack.com/oauth/authorize?scope=commands&client_id=261022332754.262110268791"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
-Note: this request communicates with a live version of this Slackboat _server_, deployed on an AWS EC2 instance.
+Note: this request communicates with a live version of this slackboat _server_, deployed on an AWS EC2 instance.
 
 ## Now what?
 
-Open up your slack client and try out the new commands!
+Open up your slack client and try out the new commands!!!!1!11!
 
 These are the currently available commands:
 `/is_spam_domain [email, or domain]` Checks a given email/domain string against a list of known disposable spam domains, maintained here: https://github.com/martenson/disposable-email-domains. The domain is the only relevant piece - anything before the `@` is stripped out.
@@ -41,7 +41,7 @@ https://zeustracker.abuse.ch/blocklist.php?download=badips
 
 `/find_any_match [text]` Checks a given text input against all of the above databases.
 
-No natural language processing is applied to these terms. An exact match (case insensitive) is all that is checked.
+An exact match (case insensitive) is required to find a result from one of these databases. How useful is that? Ney very, I know. This could be enhanced later.
 
 ![Alt text](/images/slash_commands_1.png?raw=true "slash command set 1")
 ![Alt text](/images/slash_commands_2.png?raw=true "slash command set 2")
@@ -53,19 +53,19 @@ No natural language processing is applied to these terms. An exact match (case i
 
 For ease of development locally, use ngrok: https://ngrok.com/
 ---
-This will make it possible for your Slack client to send requests from users (i.e. you or whoever has install the app) to your local server over the internet. The point of this is that you will not have to deploy this server to a remote environment (an AWS EC2 node, for example) every time you want to test a change during development.
+This will make it possible for your Slack client to send requests from your client to your local server over the public internet. The point of this is that you will not have to deploy this server to a remote environment (an AWS EC2 node, for example) every time you want to test a change during development.
 
-## Requirements
+## Development Requirements
 
-A Not Terrible Internet Connection (duh)
+- Internet
 
-Java JDK 8 (compile) / JRE 8 (runtime)
+- A Slack client
 
-Maven 3.x.x
+- Java JDK 8 (compile) / JRE 8 (runtime)
 
-ngrok 2.8.x (development, localhost)
+- Maven 3.x (https://maven.apache.org/install.html or use a package manager like brew, apt, etc.)
 
-Up-to-date version of a Slack client
+- ngrok 2.x (development, localhost)
 
 ## Install ngrok:
 
@@ -88,11 +88,11 @@ You will need to configure the slack app to send requests to the tunneled domain
 ## How do I start the server?
 
 1. Install dependencies (listed above)
-1. Clone the repo
-1. Change directory to repo `cd <path to repo>`
-1. Run `mvn clean install` to build the application
-1. Start the application with `java -jar target/slackboat-<version>.jar server config.yml`
-1. A helpful Linux/Mac alias to do this: `alias slackboat='cd <path to repo>; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'` (check the current version in the pom.xml file)
+1. `$ git clone https://github.com/KyleWilliford/slackboat.git` Clone the repo 
+1. `$ cd slackboat` Change directory to repo 
+1. `$ mvn clean install` to build the application
+1. `$ java -jar target/slackboat-<version>.jar server config.yml` Start the application (check the current version in the pom.xml file in the project root directory)
+1. A helpful Linux/Mac alias to do this: `alias slackboat='cd <path to repo>; mvn clean install; java -jar target/slackboat-<version>.jar server config.yml'`
 
 ### URLs
 
@@ -100,7 +100,7 @@ Client OAuth Redirect URL:
 
 `<server url>/auth`
 
-Slash Command URLs:
+Slash Command URL:
 
 `<server url>/api/<command path>`
 
@@ -121,12 +121,9 @@ https://zeustracker.abuse.ch/blocklist.php?download=badips
 # Future Improvements and TODOs
 
 - The relevant databases should be retrieved at server start, and periodically after that. This server currently loads files that were retrieved between October 24th 2017 and November 2nd 2017, or thereabouts, so the data is not current.
-- Manage public app distribution
-- Add slack permission scope (required for public distribution)
-- Enable HTTPS (required for public distribution)
-- Encrypt client secret (required for public distribution)
-- Review Slack app distrubution terms of service/developer guides (required for public distribution)
-- More content features and stuff? Interactivity? More slash commands that do different things?
+- Add more useful or interesting app content / functions
+- Enable HTTPS
+- Encrypt client secret token / other tokens
 
 # Travis CI
 
