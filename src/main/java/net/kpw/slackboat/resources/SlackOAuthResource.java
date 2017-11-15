@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.kpw.slackboat.SlackClientAppConfiguration;
 
@@ -45,10 +49,15 @@ public class SlackOAuthResource {
      */
     @GET
     public Response authorize(@Context HttpServletRequest request) {
+        final String error = request.getParameter("error");
+        if (StringUtils.isNotBlank(error) && "access_denied".equals(error)) {
+            LOG.debug(error);
+            return Response.ok().entity("Oh, you don't want to install me, huh? Well okay... bye.").build();
+        }
         final String code = request.getParameter("code");
         LOG.debug(code);
         if (StringUtils.isBlank(code)) {
-            return Response.serverError().entity("Oh, uh... okay, bye!").build();
+            return Response.status(Status.BAD_REQUEST).build();
         }
         StringBuilder sb = new StringBuilder("https://slack.com/api/oauth.access?code=").append(code);
         sb.append("&client_id=").append(slackClientAppConfiguration.getClientID())
@@ -65,13 +74,20 @@ public class SlackOAuthResource {
             HttpEntity entity = response.getEntity();
             StringWriter writer = new StringWriter();
             IOUtils.copy(entity.getContent(), writer, "UTF-8");
-            String theString = writer.toString();
-            LOG.debug(theString);
+            String accessResponse = writer.toString();
             EntityUtils.consume(entity);
-            return Response.ok().entity("Success!").build();
+            LOG.debug(accessResponse);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonNode = mapper.readTree(accessResponse);
+            Boolean ok = jsonNode.get("ok").asBoolean();
+            if (ok) {
+                return Response.ok().entity("Successfully installed slackboat to your workspace! Go try it out in your Slack client!").build();
+            }
         } catch (Exception e) {
             LOG.error(e);
-            return Response.serverError().entity("Sorry, something went wrong!").build();
         }
+        LOG.warn("Could not install slackboat to user's workspace.");
+        return Response.status(Status.UNAUTHORIZED).entity("Sorry, something went wrong! Slackboat could not be installed to your workspace.").build();
     }
 }
