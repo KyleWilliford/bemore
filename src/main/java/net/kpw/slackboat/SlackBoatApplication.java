@@ -7,7 +7,7 @@ import org.apache.http.client.HttpClient;
 import io.dropwizard.Application;
 import io.dropwizard.client.HttpClientBuilder;
 import io.dropwizard.setup.Environment;
-import net.kpw.slackboat.core.DisposableMalwareDomainList;
+import net.kpw.slackboat.core.DisposableEmailDomainList;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
 import net.kpw.slackboat.core.ZeuSDomainList;
@@ -56,14 +56,14 @@ public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
         
         final FileParser fileParser = FileParser.getInstance();
 
-        final DisposableMalwareDomainList disposableMalwareDomainList = new DisposableMalwareDomainList(fileParser.parseLines(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
+        final DisposableEmailDomainList disposableEmailDomainList = new DisposableEmailDomainList(fileParser.parseLines(getClass().getResourceAsStream("/disposable_email_blacklist.conf")));
         final PhishTank phishTank = new PhishTank(fileParser.parseURLsSecondColumn(getClass().getResourceAsStream("/phishtank.csv")));
         final OpenPhish openPhish = new OpenPhish(fileParser.parseLines(getClass().getResourceAsStream("/openphish.txt")));
         final ZeuSDomainList zeus = new ZeuSDomainList(fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_bad_domains.txt")), 
                 fileParser.parseLines(getClass().getResourceAsStream("/ZeuS_ipv4_addresses.txt")));
 
         // Resources
-        final SlackBoatResource slackBoatResource = new SlackBoatResource(disposableMalwareDomainList, phishTank, openPhish, zeus, 
+        final SlackBoatResource slackBoatResource = new SlackBoatResource(disposableEmailDomainList, phishTank, openPhish, zeus, 
                 configuration.getSlackClientAppConfiguration().getVerificationToken());
         final SlackOAuthResource slackOAuthResource = new SlackOAuthResource(configuration.getSlackClientAppConfiguration(), httpClient);
         environment.jersey().register(slackBoatResource);

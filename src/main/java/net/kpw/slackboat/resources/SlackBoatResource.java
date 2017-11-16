@@ -1,5 +1,7 @@
 package net.kpw.slackboat.resources;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -13,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.kpw.slackboat.core.DisposableMalwareDomainList;
+import net.kpw.slackboat.core.DisposableEmailDomainList;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
 import net.kpw.slackboat.core.ZeuSDomainList;
@@ -28,18 +30,18 @@ import net.kpw.slackboat.core.constant.Constants;
 @Produces(MediaType.TEXT_PLAIN)
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 public class SlackBoatResource {
-    private static final Log LOG = LogFactory.getLog(SlackBoatResource.class);
+    static final Log LOG = LogFactory.getLog(SlackBoatResource.class);
 
-    private final DisposableMalwareDomainList disposableMalwareDomainList;
+    private final DisposableEmailDomainList disposableEmailDomainList;
     private final PhishTank phishTank;
     private final OpenPhish openPhish;
     private final ZeuSDomainList zeus;
 
     private final String verificationToken;
 
-    public SlackBoatResource(final DisposableMalwareDomainList disposableMalwareDomainList, final PhishTank phishTank,
+    public SlackBoatResource(final DisposableEmailDomainList disposableEmailDomainList, final PhishTank phishTank,
             final OpenPhish openPhish, final ZeuSDomainList zeus, final String verificationToken) {
-        this.disposableMalwareDomainList = disposableMalwareDomainList;
+        this.disposableEmailDomainList = disposableEmailDomainList;
         this.phishTank = phishTank;
         this.openPhish = openPhish;
         this.zeus = zeus;
@@ -60,14 +62,14 @@ public class SlackBoatResource {
             return Response.ok().entity("The input was not found in any database.").build();
         }
         LOG.debug(text);
-        final boolean matchDisposableEmailDomain = disposableMalwareDomainList.isDomainBlacklisted(text);
+        final boolean matchDisposableEmailDomain = disposableEmailDomainList.isDomainBlacklisted(text);
         final boolean matchPhishTank = phishTank.isURLBlacklisted(text);
         final boolean matchOpenPhish = openPhish.isURLBlacklisted(text);
         final boolean matchZeuSDomains = zeus.isDomainBlacklisted(text);
         final boolean matchZeuSIPv4 = zeus.isIPBlacklisted(text);
         StringBuilder sb = new StringBuilder("The input was found in these databases:");
         if (matchDisposableEmailDomain) {
-            sb.append("\nThe Disposable Email Blacklist (Spam domains)");
+            sb.append("\nThe Disposable Email/Spam Blacklist");
         } else if (matchPhishTank) {
             sb.append("\nThe PhishTank phishing url list.");
         } else if (matchOpenPhish) {
@@ -99,7 +101,7 @@ public class SlackBoatResource {
         }
         LOG.debug(text);
         String responseText;
-        if (disposableMalwareDomainList.isDomainBlacklisted(text)) {
+        if (disposableEmailDomainList.isDomainBlacklisted(text)) {
             responseText = Constants.DISPOSABLE_DOMAIN_BLACKLISTED_TRUE;
         } else {
             responseText = Constants.DISPOSABLE_DOMAIN_BLACKLISTED_FALSE;
@@ -200,6 +202,36 @@ public class SlackBoatResource {
         } else {
             responseText = Constants.ZEUS_IP_BLACKLISTED_FALSE;
         }
+        LOG.info(responseText);
+        return Response.ok().entity(responseText).build();
+    }
+
+    @POST
+    @Path("/search")
+    public Response search(@FormParam("text") String text, @FormParam("token") final String token,
+            @FormParam("ssl_check") final String sslCheck) {
+        if (!verifyToken(token)) {
+            return Response.status(Status.UNAUTHORIZED).entity(Constants.VERIFICATION_TOKEN_INVALID).build();
+        }
+        if (StringUtils.isNotBlank(sslCheck)) {
+            return Response.ok().build();
+        }
+        if (StringUtils.isBlank(text)) {
+            return Response.ok().entity("The input was not found in any database.").build();
+        }
+        LOG.debug(text);
+        List<String> spamDomains = disposableEmailDomainList.searchDomainBlacklist(text);
+        StringBuilder sb = new StringBuilder();
+        if (spamDomains.size() > 0) {
+            sb.append("Found some results in the Disposable Email/Spam Blacklist:\n");
+        }
+        for (int i = 0; i < spamDomains.size(); i++) {
+            sb.append(spamDomains.get(i));
+            if (i + 1 < spamDomains.size()) {
+                sb.append("\n");
+            }
+        }
+        String responseText = sb.toString();
         LOG.info(responseText);
         return Response.ok().entity(responseText).build();
     }

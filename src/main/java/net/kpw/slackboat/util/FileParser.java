@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -54,7 +56,7 @@ public class FileParser {
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         Set<String> lines = new TreeSet<>();
         try {
-            lines = br.lines().map(line -> line.trim().toLowerCase()).filter(StringUtils::isNotBlank)
+            lines = br.lines().map(line -> line).filter(StringUtils::isNotBlank)
                     .collect(Collectors.toCollection(() -> new TreeSet<>()));
             LOG.debug("Parsed " + lines.size() + " lines.");
         } catch (Exception e) {
@@ -81,18 +83,25 @@ public class FileParser {
         final Set<String> lines = this.parseLines(inputStream);
         // return a set of the values from the second column
         Set<String> urls = new TreeSet<>();
-        String[] split;
         for (String line : lines) {
-            split = line.split(",");
-            if (split.length >= 2) {
-                String url = split[1].trim().toLowerCase(); // url column
-                if ("url".equalsIgnoreCase(url) || StringUtils.isBlank(url)) {
-                    LOG.debug("filtering out " + url);
-                    lines.remove(line);
-                } else {
-                    urls.add(url);
+            Pattern regex = Pattern.compile("[^,\"']+|\"([^\"]*)\"");
+            Matcher regexMatcher = regex.matcher(line);
+            int counter = 0;
+            while (regexMatcher.find()) {
+                if (counter == 1) { // url column
+                    String url = "";
+                    if (regexMatcher.group(1) != null) { // url was escaped with quotes
+                        url = regexMatcher.group(1).trim();
+                    } else if (regexMatcher.group(0) != null) {
+                        url = regexMatcher.group(0).trim();
+                    }
+                    if (!"url".equalsIgnoreCase(url) && StringUtils.isNotBlank(url)) {
+                        urls.add(url);
+                    }
+                    break;
                 }
-            }
+                counter++;
+            } 
         }
         LOG.debug("Parsed " + urls.size() + " urls.");
         return urls;

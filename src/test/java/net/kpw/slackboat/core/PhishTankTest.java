@@ -18,7 +18,7 @@ import net.kpw.slackboat.util.FileParser;
  */
 public class PhishTankTest {
     private static final FileParser fileParser = FileParser.getInstance();
-    final Set<String> urls = fileParser.parseURLsSecondColumn(getClass().getResourceAsStream("/phishtank.csv"));
+    private final Set<String> urls = fileParser.parseURLsSecondColumn(getClass().getResourceAsStream("/phishtank.csv"));
     private final PhishTank phishTank = new PhishTank(urls);
 
     @Test

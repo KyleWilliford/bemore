@@ -15,7 +15,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import io.dropwizard.testing.junit.ResourceTestRule;
-import net.kpw.slackboat.core.DisposableMalwareDomainList;
+import net.kpw.slackboat.core.DisposableEmailDomainList;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
 import net.kpw.slackboat.core.ZeuSDomainList;
@@ -30,7 +30,7 @@ import net.kpw.slackboat.util.FileParser;
 public class SlackBoatResourceTest {
 
     private static final FileParser fileParser = FileParser.getInstance();
-    private static final DisposableMalwareDomainList disposableMalwareDomainList = new DisposableMalwareDomainList(
+    private static final DisposableEmailDomainList disposableEmailDomainList = new DisposableEmailDomainList(
             fileParser.parseLines(SlackBoatResourceTest.class.getResourceAsStream("/disposable_email_blacklist.conf")));
     private static final PhishTank phishTank = new PhishTank(
             fileParser.parseURLsSecondColumn(SlackBoatResourceTest.class.getResourceAsStream("/phishtank.csv")));
@@ -43,7 +43,7 @@ public class SlackBoatResourceTest {
 
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new SlackBoatResource(disposableMalwareDomainList, phishTank, openPhish, zeusDomainList, VERIFICATION_TOKEN))
+            .addResource(new SlackBoatResource(disposableEmailDomainList, phishTank, openPhish, zeusDomainList, VERIFICATION_TOKEN))
             .build();
 
     /**
@@ -57,11 +57,11 @@ public class SlackBoatResourceTest {
         // disposable spam emails
         Form input = new Form();
         input.param("token", VERIFICATION_TOKEN);
-        input.param("text", disposableMalwareDomainList.getDomains().iterator().next());
+        input.param("text", disposableEmailDomainList.getDomains().iterator().next());
         Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
         String responseText = IOUtils.toString(
                 (ByteArrayInputStream) resources.target("/api/find_any_match").request().post(entity).getEntity(), StandardCharsets.UTF_8);
-        assertEquals("The input was found in these databases:\nThe Disposable Email Blacklist (Spam domains)", responseText);
+        assertEquals("The input was found in these databases:\nThe Disposable Email/Spam Blacklist", responseText);
 
         // phishtank
         input = new Form();
@@ -262,11 +262,23 @@ public class SlackBoatResourceTest {
     @Test
     public void testIsSpamDomainBlacklisted() throws IOException {
         Form input = new Form();
-        input.param("text", disposableMalwareDomainList.getDomains().iterator().next());
+        input.param("text", disposableEmailDomainList.getDomains().iterator().next());
         input.param("token", VERIFICATION_TOKEN);
         Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
         String responseText = IOUtils.toString(
                 (ByteArrayInputStream) resources.target("/api/is_spam_domain").request().post(entity).getEntity(), StandardCharsets.UTF_8);
         assertEquals(Constants.DISPOSABLE_DOMAIN_BLACKLISTED_TRUE, responseText);
+    }
+
+    @Test
+    public void testSearch() throws IOException {
+        Form input = new Form();
+        input.param("text", "10mail");
+        input.param("token", VERIFICATION_TOKEN);
+        Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
+        String responseText = IOUtils.toString(
+                (ByteArrayInputStream) resources.target("/api/search").request().post(entity).getEntity(), StandardCharsets.UTF_8);
+        final String expectedResponse = "Found some results in the Disposable Email/Spam Blacklist:\n10mail.com\n10mail.org";
+        assertEquals(expectedResponse, responseText);
     }
 }

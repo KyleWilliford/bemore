@@ -1,5 +1,6 @@
 package net.kpw.slackboat.core;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -13,12 +14,12 @@ import org.apache.commons.logging.LogFactory;
  * @created Nov 7, 2017
  *
  */
-public final class DisposableMalwareDomainList extends Blacklist {
+public final class DisposableEmailDomainList extends Blacklist {
     @SuppressWarnings("unused")
-    private static final Log LOG = LogFactory.getLog(DisposableMalwareDomainList.class);
+    private static final Log LOG = LogFactory.getLog(DisposableEmailDomainList.class);
     private Set<String> domains = new TreeSet<>();
 
-    public DisposableMalwareDomainList(Set<String> domains) {
+    public DisposableEmailDomainList(Set<String> domains) {
         this.domains = domains;
     }
 
@@ -39,6 +40,10 @@ public final class DisposableMalwareDomainList extends Blacklist {
      */
     public boolean isDomainBlacklisted(final String input) {
         return super.domainBlackListImpl.isBlacklisted(input, this.domains);
+    }
+    
+    public List<String> searchDomainBlacklist(final String term) {
+        return super.domainBlackListImpl.search(term, this.domains);
     }
 
     /**

@@ -17,7 +17,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import io.dropwizard.testing.junit.ResourceTestRule;
-import net.kpw.slackboat.core.DisposableMalwareDomainList;
+import net.kpw.slackboat.core.DisposableEmailDomainList;
 import net.kpw.slackboat.core.OpenPhish;
 import net.kpw.slackboat.core.PhishTank;
 import net.kpw.slackboat.core.ZeuSDomainList;
@@ -31,7 +31,7 @@ import net.kpw.slackboat.util.FileParser;
 public class SlackBoatResourceSSLCheckTest {
 
     private static final FileParser fileParser = FileParser.getInstance();
-    private static final DisposableMalwareDomainList disposableMalwareDomainList = new DisposableMalwareDomainList(
+    private static final DisposableEmailDomainList disposableEmailDomainList = new DisposableEmailDomainList(
             fileParser.parseLines(SlackBoatResourceSSLCheckTest.class.getResourceAsStream("/disposable_email_blacklist.conf")));
     private static final PhishTank phishTank = new PhishTank(
             fileParser.parseURLsSecondColumn(SlackBoatResourceSSLCheckTest.class.getResourceAsStream("/phishtank.csv")));
@@ -44,7 +44,7 @@ public class SlackBoatResourceSSLCheckTest {
 
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new SlackBoatResource(disposableMalwareDomainList, phishTank, openPhish, zeusDomainList, VERIFICATION_TOKEN))
+            .addResource(new SlackBoatResource(disposableEmailDomainList, phishTank, openPhish, zeusDomainList, VERIFICATION_TOKEN))
             .build();
 
     /**

@@ -34,13 +34,10 @@ public class FileParserTest {
     public void parseURLsSecondColumn() {
         final String TEST_FILE_RESOURCE_PATH = "/phishtank.csv";
         Set<String> urls = fileParser.parseURLsSecondColumn(getClass().getResourceAsStream(TEST_FILE_RESOURCE_PATH));
-        assertEquals(urls.size(), 22275);
+        assertEquals(urls.size(), 22299);
         for (String url : urls) {
             if (StringUtils.isBlank(url)) {
                 fail("There should be no blank or null urls.");
-            }
-            if (url.contains(",")) {
-                fail("There should be no commas - this indicaes that the csv was not parsed correctly.");
             }
         }
     }
