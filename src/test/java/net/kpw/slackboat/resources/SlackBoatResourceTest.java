@@ -9,8 +9,6 @@ import java.nio.charset.StandardCharsets;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.ClassRule;
@@ -270,113 +268,5 @@ public class SlackBoatResourceTest {
         String responseText = IOUtils.toString(
                 (ByteArrayInputStream) resources.target("/api/is_spam_domain").request().post(entity).getEntity(), StandardCharsets.UTF_8);
         assertEquals(Constants.DISPOSABLE_DOMAIN_BLACKLISTED_TRUE, responseText);
-    }
-
-    /**
-     * Test querying the api to perform an ssl check. https://api.slack.com/slash-commands#ssl
-     * 
-     * @throws IOException
-     */
-    @Test
-    public void testSSLCheckFindAnyMatch() throws IOException {
-        Form input = new Form();
-        input.param("text", "");
-        input.param("token", VERIFICATION_TOKEN);
-        input.param("ssl_check", "1");
-        Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
-        Response response = resources.target("/api/find_any_match").request().post(entity);
-        String responseText = IOUtils.toString((ByteArrayInputStream) response.getEntity(), StandardCharsets.UTF_8);
-        assertEquals("", responseText);
-        assertEquals(Status.OK.getStatusCode(), response.getStatus());
-    }
-
-    /**
-     * Test querying the api to perform an ssl check. https://api.slack.com/slash-commands#ssl
-     * 
-     * @throws IOException
-     */
-    @Test
-    public void testSSLCheckOpenPhish() throws IOException {
-        Form input = new Form();
-        input.param("text", "");
-        input.param("token", VERIFICATION_TOKEN);
-        input.param("ssl_check", "1");
-        Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
-        Response response = resources.target("/api/is_in_openphish").request().post(entity);
-        String responseText = IOUtils.toString((ByteArrayInputStream) response.getEntity(), StandardCharsets.UTF_8);
-        assertEquals("", responseText);
-        assertEquals(Status.OK.getStatusCode(), response.getStatus());
-    }
-
-    /**
-     * Test querying the api to perform an ssl check. https://api.slack.com/slash-commands#ssl
-     * 
-     * @throws IOException
-     */
-    @Test
-    public void testSSLCheckPhishtank() throws IOException {
-        Form input = new Form();
-        input.param("text", "");
-        input.param("token", VERIFICATION_TOKEN);
-        input.param("ssl_check", "1");
-        Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
-        Response response = resources.target("/api/is_in_phishtank").request().post(entity);
-        String responseText = IOUtils.toString((ByteArrayInputStream) response.getEntity(), StandardCharsets.UTF_8);
-        assertEquals("", responseText);
-        assertEquals(Status.OK.getStatusCode(), response.getStatus());
-    }
-
-    /**
-     * Test querying the api to perform an ssl check. https://api.slack.com/slash-commands#ssl
-     * 
-     * @throws IOException
-     */
-    @Test
-    public void testSSLCheckSpamDomainBlacklist() throws IOException {
-        Form input = new Form();
-        input.param("text", "");
-        input.param("token", VERIFICATION_TOKEN);
-        input.param("ssl_check", "1");
-        Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
-        Response response = resources.target("/api/is_spam_domain").request().post(entity);
-        String responseText = IOUtils.toString((ByteArrayInputStream) response.getEntity(), StandardCharsets.UTF_8);
-        assertEquals("", responseText);
-        assertEquals(Status.OK.getStatusCode(), response.getStatus());
-    }
-
-    /**
-     * Test querying the api to perform an ssl check. https://api.slack.com/slash-commands#ssl
-     * 
-     * @throws IOException
-     */
-    @Test
-    public void testSSLCheckZeusDomainBlacklist() throws IOException {
-        Form input = new Form();
-        input.param("text", "");
-        input.param("token", VERIFICATION_TOKEN);
-        input.param("ssl_check", "1");
-        Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
-        Response response = resources.target("/api/is_zeus_domain").request().post(entity);
-        String responseText = IOUtils.toString((ByteArrayInputStream) response.getEntity(), StandardCharsets.UTF_8);
-        assertEquals("", responseText);
-        assertEquals(Status.OK.getStatusCode(), response.getStatus());
-    }
-
-    /**
-     * Test querying the api to perform an ssl check. https://api.slack.com/slash-commands#ssl
-     * 
-     * @throws IOException
-     */
-    @Test
-    public void testSSLCheckZeusIPv4Blacklist() throws IOException {
-        Form input = new Form();
-        input.param("text", "");
-        input.param("token", VERIFICATION_TOKEN);
-        input.param("ssl_check", "1");
-        Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
-        Response response = resources.target("/api/is_zeus_ipv4").request().post(entity);
-        String responseText = IOUtils.toString((ByteArrayInputStream) response.getEntity(), StandardCharsets.UTF_8);
-        assertEquals("", responseText);
-        assertEquals(Status.OK.getStatusCode(), response.getStatus());
     }
 }
