@@ -278,7 +278,11 @@ public class SlackBoatResourceTest {
         Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
         String responseText = IOUtils.toString(
                 (ByteArrayInputStream) resources.target("/api/search").request().post(entity).getEntity(), StandardCharsets.UTF_8);
-        final String expectedResponse = "Found some results in the Disposable Email/Spam Blacklist:\n>10mail[dot]com\n>10mail[dot]org";
+        StringBuilder sb = new StringBuilder();
+        sb.append("You searched for: ").append("10mail").append("\n")
+        .append("Note: Some characters are escaped so that Slack will not create hyperlinks.\n");
+        final String preamble = sb.toString();
+        final String expectedResponse = preamble + "Found some results in the Disposable Email/Spam Blacklist:\n>10mail[dot]com\n>10mail[dot]org";
         assertEquals(expectedResponse, responseText);
     }
 }
