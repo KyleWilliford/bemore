@@ -220,10 +220,14 @@ public class SlackBoatResource {
             return Response.ok().entity("The input was not found in any database.").build();
         }
         LOG.debug(text);
+        StringBuilder sb = new StringBuilder();
+        sb.append("You searched for: ").append(text.replaceAll("\\.", "[dot]")).append("\n")
+        .append("Note: Some characters are escaped so that Slack will not create hyperlinks.\n");
+        final String preamble = sb.toString();
+        sb = new StringBuilder();
         
         // Malware Domains
         List<String> results = this.disposableEmailDomainList.searchDomainBlacklist(text);
-        StringBuilder sb = new StringBuilder();
         if (!results.isEmpty()) {
             sb.append("Found some results in the Disposable Email/Spam Blacklist:\n");
             for (int i = 0; i < results.size(); i++) {
@@ -280,7 +284,11 @@ public class SlackBoatResource {
                 }
             }
         }
-        String responseText = sb.toString();
+        String resultsText = sb.toString();
+        if ("".equals(resultsText)) {
+            resultsText = "\nNo results found.";
+        }
+        final String responseText = preamble + resultsText;
         LOG.info(responseText);
         return Response.ok().entity(responseText).build();
     }
