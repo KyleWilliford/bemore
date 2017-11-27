@@ -278,7 +278,7 @@ public class SlackBoatResourceTest {
         Entity<?> entity = Entity.entity(input, MediaType.APPLICATION_FORM_URLENCODED);
         String responseText = IOUtils.toString(
                 (ByteArrayInputStream) resources.target("/api/search").request().post(entity).getEntity(), StandardCharsets.UTF_8);
-        final String expectedResponse = "Found some results in the Disposable Email/Spam Blacklist:\n>10mail.com\n>10mail.org";
+        final String expectedResponse = "Found some results in the Disposable Email/Spam Blacklist:\n>10mail[dot]com\n>10mail[dot]org";
         assertEquals(expectedResponse, responseText);
     }
 }
