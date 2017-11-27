@@ -45,6 +45,7 @@ class DomainBlacklistImpl implements IBlacklist {
         }
         final String termLC = term.trim().toLowerCase();
         LOG.debug(term);
-        return strings.parallelStream().filter(s -> s.contains(termLC) || s.trim().toLowerCase().equalsIgnoreCase(termLC)).map(s -> s.replaceAll("\\.", "[dot]")).collect(Collectors.toList());
+        return strings.parallelStream().filter(s -> s.contains(termLC) || s.trim().toLowerCase().equalsIgnoreCase(termLC))
+                .map(s -> s.replaceAll("^(.*?)\\://", "[$0]")).map(s -> s.replaceAll("\\.", "[dot]")).collect(Collectors.toList());
     }
 }
