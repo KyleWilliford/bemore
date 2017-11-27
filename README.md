@@ -43,6 +43,8 @@ https://zeustracker.abuse.ch/blocklist.php?download=badips
 
 `/find_any_match [text]` Checks a given text input against all of the above databases.
 
+`/search_malware [term]` Performs a search for the input term across all databases. Case insensitive matching. For a match to be found, the database record must _contain_ at least the input term.
+
 ![Alt text](/images/find_any_match.png?raw=true "find any match")
 
 An exact match (case insensitive) is required to find a result from one of these databases. How useful is that? Ney very, I know. This could be enhanced later.
