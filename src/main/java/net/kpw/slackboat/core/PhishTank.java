@@ -1,5 +1,6 @@
 package net.kpw.slackboat.core;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -46,5 +47,14 @@ public final class PhishTank extends Blacklist {
      */
     public void setUrls(Set<String> urls) {
         this.urls = urls;
+    }
+    
+    /**
+     * Return a list of strings that contain the given term.
+     * @param term The search term.
+     * @return A list of matched strings.
+     */
+    public List<String> searchURLBlacklist(final String term) {
+        return super.urlBlackListImpl.search(term, this.urls);
     }
 }

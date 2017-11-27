@@ -1,5 +1,6 @@
 package net.kpw.slackboat.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,7 +31,11 @@ class IPv4BlacklistImpl implements IBlacklist {
 
     @Override
     public List<String> search(String term, Set<String> strings) {
-        // TODO Auto-generated method stub
-        return null;
+        if (StringUtils.isBlank(term) || CollectionUtils.isEmpty(strings)) {
+            return new ArrayList<>();
+        }
+        final String termLC = term.trim().toLowerCase();
+        LOG.debug(term);
+        return strings.parallelStream().filter(s -> s.contains(termLC) || s.trim().toLowerCase().equalsIgnoreCase(termLC)).collect(Collectors.toList());
     }
 }

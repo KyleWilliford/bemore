@@ -220,15 +220,64 @@ public class SlackBoatResource {
             return Response.ok().entity("The input was not found in any database.").build();
         }
         LOG.debug(text);
-        List<String> spamDomains = disposableEmailDomainList.searchDomainBlacklist(text);
+        
+        // Malware Domains
+        List<String> results = this.disposableEmailDomainList.searchDomainBlacklist(text);
         StringBuilder sb = new StringBuilder();
-        if (spamDomains.size() > 0) {
+        if (!results.isEmpty()) {
             sb.append("Found some results in the Disposable Email/Spam Blacklist:\n");
+            for (int i = 0; i < results.size(); i++) {
+                sb.append(">").append(results.get(i));
+                if (i + 1 < results.size()) {
+                    sb.append("\n");
+                }
+            }
         }
-        for (int i = 0; i < spamDomains.size(); i++) {
-            sb.append(spamDomains.get(i));
-            if (i + 1 < spamDomains.size()) {
-                sb.append("\n");
+        
+        // PhishTank
+        results = this.phishTank.searchURLBlacklist(text);
+        if (!results.isEmpty()) {
+            sb.append("\nFound some results in the PhishTank database:\n");
+            for (int i = 0; i < results.size(); i++) {
+                sb.append(">").append(results.get(i));
+                if (i + 1 < results.size()) {
+                    sb.append("\n");
+                }
+            }
+        }
+        // OpenPhish
+        results = this.openPhish.searchURLBlacklist(text);
+        if (!results.isEmpty()) {
+            sb.append("\nFound some results in the OpenPhish database:\n");
+            for (int i = 0; i < results.size(); i++) {
+                sb.append(">").append(results.get(i));
+                if (i + 1 < results.size()) {
+                    sb.append("\n");
+                }
+            }
+        }
+        
+        // Zeus Domains
+        results = this.zeus.searchDomainBlacklist(text);
+        if (!results.isEmpty()) {
+            sb.append("\nFound some results in the Zeus domain database:\n");
+            for (int i = 0; i < results.size(); i++) {
+                sb.append(">").append(results.get(i));
+                if (i + 1 < results.size()) {
+                    sb.append("\n");
+                }
+            }
+        }
+        
+        // Zeus IPs
+        results = this.zeus.searchIPBlacklist(text);
+        if (!results.isEmpty()) {
+            sb.append("\nFound some results in the Zeus ip database:\n");
+            for (int i = 0; i < results.size(); i++) {
+                sb.append(">").append(results.get(i));
+                if (i + 1 < results.size()) {
+                    sb.append("\n");
+                }
             }
         }
         String responseText = sb.toString();

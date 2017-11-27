@@ -41,7 +41,14 @@ public final class DisposableEmailDomainList extends Blacklist {
     public boolean isDomainBlacklisted(final String input) {
         return super.domainBlackListImpl.isBlacklisted(input, this.domains);
     }
-    
+
+    /**
+     * Return a list of strings that contain the given term.
+     * 
+     * @param term
+     *            The search term.
+     * @return A list of matched strings.
+     */
     public List<String> searchDomainBlacklist(final String term) {
         return super.domainBlackListImpl.search(term, this.domains);
     }

@@ -1,5 +1,6 @@
 package net.kpw.slackboat.core;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -75,5 +76,23 @@ public final class ZeuSDomainList extends Blacklist {
      */
     public void setIpv4Addresses(Set<String> ipv4Addresses) {
         this.ipv4Addresses = ipv4Addresses;
+    }
+    
+    /**
+     * Return a list of strings that contain the given term.
+     * @param term The search term.
+     * @return A list of matched strings.
+     */
+    public List<String> searchDomainBlacklist(final String term) {
+        return super.domainBlackListImpl.search(term, this.domains);
+    }
+    
+    /**
+     * Return a list of strings that contain the given term.
+     * @param term The search term.
+     * @return A list of matched strings.
+     */
+    public List<String> searchIPBlacklist(final String term) {
+        return super.ipv4BlackListImpl.search(term, this.ipv4Addresses);
     }
 }
