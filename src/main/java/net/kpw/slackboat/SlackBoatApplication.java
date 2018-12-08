@@ -42,7 +42,7 @@ public class SlackBoatApplication extends Application<SlackBoatConfiguration> {
          * Using HTTP requests to load resources is something to do for a production version of this application.
          * For now, we will just load local files.
         Blacklist blacklist = null;
-        HttpGet httpGet = new HttpGet("https://cdn.rawgit.com/martenson/disposable-email-domains/ed360890/disposable_email_blacklist.conf");
+        HttpGet httpGet = new HttpGet("https://cdn.jsdelivr.net/gh/martenson/disposable-email-domains@ed360890/disposable_email_blacklist.conf");
         try {
             HttpResponse response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
